@@ -68,7 +68,7 @@ MaCuon varchar(20) constraint Muon_Foreignkey_MaCuon references CuonSach(MaCuon)
 MaDocGia varchar(10) constraint Muon_Foreignkey_MaDocGia references DocGia(MaDocGia),
 NgayMuon datetime,
 NgayHetHan datetime,
-MaKhuVucSach int unique, 
+MaKhuVucSach varchar(10), 
 Constraint Muon_Primarykey Primary key(MaCuon,MaDocGia)
 )
 Go
@@ -83,7 +83,7 @@ CREATE TABLE QuaTrinhMuon
 	NgayTra datetime,
 	TinhTrang varchar(50),
 	TienDen int,
-	Foreign key (MaCuon, MaDocGia) references Muon (MaCuon, MaDocGia),
+	Constraint QuaTrinhMuon_Foreignkey_MaCuonMaDocGia Foreign key (MaCuon, MaDocGia) references Muon (MaCuon, MaDocGia),
 	Constraint QuaTrinhMuon_Primarykey Primary key(MaCuon,MaDocGia)
 )
 
