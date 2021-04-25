@@ -53,7 +53,7 @@ IDTT varchar(10) constraint KhuVucSach_Foreignkey_IDTT references ThuThu(ID),
 )
 Go
 Create Table CuonSach(
-MaCuon varchar(10) constraint CuonSach_Primarykey_MaCuon primary key,
+MaCuon varchar(20) constraint CuonSach_Primarykey_MaCuon primary key,
 TienDenBu int,
 ThoiGianMuon int,
 MaKhuVuc varchar(10) constraint CuonSach_Foreignkey_MaKhuVuc references KhuVucSach(MaKhuVuc),
@@ -64,7 +64,7 @@ Constraint CuonSach_Foreignkey_MaSachTenNXB
 )
 Go
 Create Table Muon(
-MaCuon varchar(10) constraint Muon_Foreignkey_MaCuon references CuonSach(MaCuon),
+MaCuon varchar(20) constraint Muon_Foreignkey_MaCuon references CuonSach(MaCuon),
 MaDocGia varchar(10) constraint Muon_Foreignkey_MaDocGia references DocGia(MaDocGia),
 NgayMuon datetime,
 NgayHetHan datetime,
@@ -75,7 +75,7 @@ Go
 
 CREATE TABLE QuaTrinhMuon 
 (
-	MaCuon varchar(10),
+	MaCuon varchar(20),
 	MaDocGia varchar(10),
 	NgayMuon datetime,
 	NgayHetHan datetime,
@@ -101,7 +101,7 @@ BEGIN
 	IF @GENDER != 'NAM' OR @GENDER != 'NU'
 		ROLLBACK TRAN
 END
-
+GO
 CREATE TRIGGER trigg_tien_den
 ON CUONSACH
 AFTER INSERT, UPDATE 
@@ -116,7 +116,7 @@ BEGIN
 	IF @TIEN_DEN > @GIA
 		ROLLBACK TRAN
 END
-
+Go
 CREATE TRIGGER trigg_ngay_muon
 ON MUON
 AFTER INSERT, UPDATE
@@ -130,7 +130,7 @@ BEGIN
 	IF DATEDIFF(DAY,@NGAY_MUON,@NGAY_TRA ) <= 0
 		ROLLBACK TRAN
 END
-
+Go
 CREATE TRIGGER trigg_truc
 ON KHUVUCSACH
 AFTER INSERT, UPDATE
@@ -148,7 +148,7 @@ BEGIN
 	IF @SO_KHU_VUC >= 1
 		ROLLBACK TRAN
 END
-
+Go
 CREATE TRIGGER trigg_sach
 ON CUONSACH
 AFTER INSERT, UPDATE
@@ -166,7 +166,7 @@ BEGIN
 	IF @SO_KHU_VUC >= 1
 		ROLLBACK TRAN
 END
-
+Go
 CREATE TRIGGER trigg_Thoi_Gian_Muon
 ON MUON
 AFTER INSERT, UPDATE
@@ -184,7 +184,7 @@ BEGIN
 	IF DATEDIFF (DAY,@NGAY_MUON, @NGAY_HET_HAN) < @THOI_GIAN_MUON
 		ROLLBACK TRAN
 END
-
+Go
 
 CREATE TRIGGER trigg_muon_sach
 ON MUON
@@ -210,7 +210,7 @@ BEGIN
 
 	EXECUTE Proc_Cho_Muon_sach @MA_CUON, @MA_DOC_GIA, @NGAY_MUON, @NGAY_HET_HAN, @KHU_VUC_SACH
 END
-
+Go
 
 
 CREATE PROCEDURE Proc_Cho_Muon_sach @MA_CUON INT, @MA_DOC_GIA INT, @NGAY_MUON DATETIME, @NGAY_HET_HAN DATETIME, @KHU_VUC_SACH INT
@@ -224,7 +224,7 @@ BEGIN
 	SET MaKhuVuc = NULL
 	WHERE CuonSach.MaCuon = @MA_CUON
 END
-
+Go
 
 
 CREATE TRIGGER trigg_tra_sach 
@@ -244,7 +244,7 @@ BEGIN
 
 	EXECUTE Proc_tra_sach @MA_CUON, @MA_DOC_GIA, @NGAY_MUON, @NGAY_HET_HAN, @KHU_VUC_SACH
 END
-
+Go
 CREATE PROCEDURE Proc_tra_sach @MA_CUON INT, @MA_DOC_GIA INT, @NGAY_MUON DATETIME, @NGAY_HET_HAN DATETIME, @KHU_VUC_SACH INT
 AS 
 BEGIN
@@ -256,7 +256,7 @@ BEGIN
 	WHERE CuonSach.MaCuon = @MA_CUON
 
 END
-
+Go
 CREATE TRIGGER trigg_sua_trang_thai 
 ON QUATRINHMUON
 AFTER UPDATE 
@@ -273,7 +273,7 @@ BEGIN
 	
 
 END
-
+Go
 CREATE FUNCTION Func_tinh_tien_den (@MA_CUON INT, @NGAY_MUON DATETIME, @NGAY_TRA DATETIME , @TINH_TRANG VARCHAR(50))
 RETURNS INT
 AS 
@@ -290,4 +290,4 @@ BEGIN
 		SET @TIEN_DEN += @TIEN_SACH
 	RETURN @TIEN_DEN
 END
-
+Go
