@@ -149,7 +149,7 @@ Begin
 		Print 'MaDocGia khong ton tai';
 End
 Go
-Exec Proc_Them_DangKy 'VL01', 'ABC','DG01',null,null;
+Exec Proc_Them_DangKy 'e','f','2','2001-7-20',null;
 Go
 Create Procedure Proc_Sua_DangKy
 @MaSach varchar(10),
@@ -171,7 +171,7 @@ Begin
 		Print 'MaDocGia khong ton tai';
 End
 Go
-Exec Proc_Sua_DangKy 'VL01', 'ABC','DG01',null,'Da muon';
+Exec Proc_Sua_DangKy 'e','f','2','2001-7-10',null;
 Go
 Create Procedure Proc_Xoa_DangKy
 @MaSach varchar(10),
@@ -183,7 +183,7 @@ Begin
 	Where MaSach=@MaSach and TenNXB=@TenNXB and MaDocGia=@MaDocGia
 End
 Go
-Exec Proc_Xoa_DangKy 'VL01', 'ABC','DG01';
+Exec Proc_Xoa_DangKy 'e', 'f','2';
 Go
 --Muon
 Create Function Func_Check_KNMaCuon(@MaCuon varchar(20))
@@ -224,7 +224,7 @@ Begin
 		Print 'MaCuon khong ton tai';
 End
 Go
-Exec Proc_Them_Muon 'VL01','DG01',null,null;
+Exec Proc_Them_Muon 'p2','2',null,null;
 Go
 Create Function Func_Check_MaKhuVucSach(@MaCuon varchar(20),@MaKhuVucSach varchar(10))
 returns bit
@@ -259,7 +259,7 @@ Begin
 	Where MaCuon=@MaCuon and MaDocGia=@MaDocGia
 End
 Go
-Exec Proc_Sua_Muon 'VL01','DG02',null,null;
+Exec Proc_Sua_Muon 'p2','2','2001-2-2',null;
 Go
 Create Procedure Proc_Xoa_Muon
 @MaCuon varchar(20),
@@ -269,5 +269,4 @@ Begin
 	Delete Muon
 	Where MaCuon=@MaCuon and MaDocGia=@MaDocGia
 End
-Exec Proc_Xoa_Muon 'VL01','DG02';
---test github
+Exec Proc_Xoa_Muon 'p2','2';
