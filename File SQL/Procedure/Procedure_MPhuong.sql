@@ -15,6 +15,7 @@ Begin
 	Insert into DocGia values(@MaDocGia, @HoVaTen,@GioiTinh,@NgaySinh ,@SoDienThoai,@Email ,@DiaChi ,@HinhAnh);
 End
 Go
+exec dbo.Proc_Them_DocGia'1','a','nam',null,'0123','assss','assss',null;
 Create Procedure Proc_Sua_DocGia
 @MaDocGia varchar(10),
 @HoVaTen varchar(50),
@@ -31,13 +32,15 @@ Begin
 	 Where MaDocGia = @MaDocGia
 End
 Go
-
-Create Procedure Proc_Xoa_DocGia
+exec dbo.Proc_Sua_DocGia '1','ab','nam',null,'0123','assss','assss',null;
+create Procedure Proc_Xoa_DocGia
 @MaDocGia varchar(10)
 AS
 Begin
-
-
+	Delete DangKy
+	Where MaDocGia=@MaDocGia
+	Delete QuaTrinhMuon
+	Where MaDocGia=@MaDocGia
 	Delete Muon
 	Where MaDocGia=@MaDocGia
 	Delete DocGia
@@ -45,7 +48,7 @@ Begin
 End
 Go
 --Dau Sach
-
+exec dbo.Proc_Xoa_DocGia '1';
 Create Procedure Proc_Sua_DauSach
 @MaSach varchar(10),
 @TenNXB varchar(50),
@@ -62,6 +65,7 @@ Begin
 
 End
 Go
+exec dbo.Proc_Sua_DauSach 'p','p','a',2,'a',131654;
 Create Procedure Proc_Them_DauSach
 @MaSach varchar(10),
 @TenNXB varchar(50),
@@ -74,6 +78,7 @@ Begin
 	Insert into DauSach values(@MaSach,@TenNXB ,@TacGia ,@SoLuongCuon ,@QuocGia ,@GiaSach );
 End
 Go
+exec dbo.Proc_Them_DauSach 'p','p','a',5,'a',131654;
 --Dang lam
 Create Procedure Proc_Xoa_DauSach
 @MaSach varchar(10),
@@ -107,7 +112,7 @@ Begin
 	Where MaSach=@MaSach
 End
 Go
-Exec Proc_Xoa_DauSach 'VL01','GD';
+Exec Proc_Xoa_DauSach 'a','b';
 --Cuon Sach
 
 Create Function Func_Check_DauSach(@MaSach varchar(10))
@@ -156,17 +161,27 @@ Create Procedure Proc_Sua_CuonSach
 @TenNXB varchar(50)
 AS
 Begin
-	if(dbo.Func_Check_NXB(@TenNXB)=1 And dbo.Func_Check_KhuVuc(@MaKhuVuc)=1 And dbo.Func_Check_DauSach(@MaSach) =1) 
+if(dbo.Func_Check_NXB(@TenNXB)=1)
 		begin
-			Update CuonSach
-			Set ThoiGianMuon=@TienDenBu ,ThoiGianMuon=@ThoiGianMuon ,MaKhuVuc=@MaKhuVuc ,MaSach=@MaSach ,TenNXB=@TenNXB
-			Where MaCuon = @MaCuon
+			if (dbo.Func_Check_KhuVuc(@MaKhuVuc)=1)
+				begin
+					if(dbo.Func_Check_DauSach(@MaSach) =1)
+					begin
+						Update CuonSach
+						Set TienDenBu=@TienDenBu ,ThoiGianMuon=@ThoiGianMuon ,MaKhuVuc=@MaKhuVuc ,MaSach=@MaSach ,TenNXB=@TenNXB
+						Where MaCuon = @MaCuon
+					end
+					else Print 'Ma Sach khong ton tai';
+				end
+			else Print 'Ma Khu Vuc khong ton tai';
 		end
 	else
-		Print 'Khong sua duoc';
+		Print 'NXB khong ton tai ';
+
 End
 Go
-Create Procedure Proc_Them_CuonSach
+exec dbo.Proc_Sua_CuonSach'p2',NULL,149,A,'p','p';
+alter Procedure Proc_Them_CuonSach
 @MaCuon varchar(20),
 @TienDenBu int,
 @ThoiGianMuon int,
@@ -175,13 +190,23 @@ Create Procedure Proc_Them_CuonSach
 @TenNXB varchar(50)
 AS
 Begin
-	if(dbo.Func_Check_NXB(@TenNXB)=1 And dbo.Func_Check_KhuVuc(@MaKhuVuc)=1 And dbo.Func_Check_DauSach(@MaSach) =1) 
-		Insert into CuonSach values(@MaCuon,@TienDenBu ,@ThoiGianMuon ,@MaKhuVuc ,@MaSach ,@TenNXB);
+	if(dbo.Func_Check_NXB(@TenNXB)=1)
+		begin
+			if (dbo.Func_Check_KhuVuc(@MaKhuVuc)=1)
+				begin
+					if(dbo.Func_Check_DauSach(@MaSach) =1)
+					begin
+						Insert into CuonSach values(@MaCuon,@TienDenBu ,@ThoiGianMuon ,@MaKhuVuc ,@MaSach ,@TenNXB);
+					end
+					else Print 'Ma Sach khong ton tai';
+				end
+			else Print 'Ma Khu Vuc khong ton tai';
+		end
 	else
-		Print 'Khong them duoc';
+		Print 'NXB khong ton tai ';
 End
 Go
-
+exec dbo.Proc_Them_CuonSach 'p2',NULL,145,A,'p','p';
 --
 Create Procedure Proc_Xoa_CuonSach
 @MaCuon varchar(20)
@@ -196,5 +221,5 @@ Begin
 
 End
 Go
-
+exec dbo.Proc_Xoa_CuonSach 'c1';
 

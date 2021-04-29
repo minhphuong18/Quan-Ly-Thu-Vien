@@ -1,0 +1,120 @@
+--ThuThu
+insert into ThuThu (ID, TaiKhoan, MatKhau, HoVaTen, GioiTinh, SoDienThoai, DiaChiNha) values ('TT01', 'adminTT01', 'adminTT01', 'Nguyen Duc Tri', 'Nam', '0715246852', '05 Thu Duc');
+insert into ThuThu (ID, TaiKhoan, MatKhau, HoVaTen, GioiTinh, SoDienThoai, DiaChiNha) values ('TT02', 'adminTT02', 'adminTT02', 'Truong Minh Phuong', 'Nam', '0736985214', '8 Binh Duong');
+insert into ThuThu (ID, TaiKhoan, MatKhau, HoVaTen, GioiTinh, SoDienThoai, DiaChiNha) values ('TT03', 'adminTT03', 'adminTT03', 'Nguyen Minh Dang', 'Nam', '0754251599', '07 Go Vap');
+insert into ThuThu (ID, TaiKhoan, MatKhau, HoVaTen, GioiTinh, SoDienThoai, DiaChiNha) values ('TT04', 'adminTT04', 'adminTT04', 'Le Quoc Vinh', 'Nam', '0725325236', '161 Dinh Tien Hoang');
+insert into ThuThu (ID, TaiKhoan, MatKhau, HoVaTen, GioiTinh, SoDienThoai, DiaChiNha) values ('TT05', 'adminTT05', 'adminTT05', 'Nguyen Phuoc Dang', 'Nam', '0747584710', '7 Quang Dong');
+insert into ThuThu (ID, TaiKhoan, MatKhau, HoVaTen, GioiTinh, SoDienThoai, DiaChiNha) values ('TT06', 'adminTT06', 'adminTT06', 'Thach Duong Duy', 'Nam', '0796969658', '2 Hoang Dieu');
+insert into ThuThu (ID, TaiKhoan, MatKhau, HoVaTen, GioiTinh, SoDienThoai, DiaChiNha) values ('TT07', 'adminTT07', 'adminTT07', 'Nguyen Quoc Thang', 'Nam', '0723214256', '052 Xom Moi');
+insert into ThuThu (ID, TaiKhoan, MatKhau, HoVaTen, GioiTinh, SoDienThoai, DiaChiNha) values ('TT08', 'adminTT08', 'adminTT08', 'Nguyen Hoang Vu', 'Nam', '0765252546', '85647 Le Van Tho');
+insert into ThuThu (ID, TaiKhoan, MatKhau, HoVaTen, GioiTinh, SoDienThoai, DiaChiNha) values ('TT09', 'adminTT09', 'adminTT09', 'Nguyen Phuoc Thang', 'Nam', '0731256215', '7277 Le Duc Tho');
+insert into ThuThu (ID, TaiKhoan, MatKhau, HoVaTen, GioiTinh, SoDienThoai, DiaChiNha) values ('TT10', 'adminTT10', 'adminTT10', 'Tran Minh Sang', 'Nam', '0752536325', '34251 Hai Ba Trung');
+insert into ThuThu (ID, TaiKhoan, MatKhau, HoVaTen, GioiTinh, SoDienThoai, DiaChiNha) values ('TT11', 'adminTT11', 'adminTT11', 'Thach Duong Phuong', 'Nam', '07235462145', '41132 Le Loi');
+insert into ThuThu (ID, TaiKhoan, MatKhau, HoVaTen, GioiTinh, SoDienThoai, DiaChiNha) values ('TT12', 'adminTT12', 'adminTT12', 'Dang Nhat Tien', 'Nam', '0126589657', '80 Nguyen Van Luong');
+insert into ThuThu (ID, TaiKhoan, MatKhau, HoVaTen, GioiTinh, SoDienThoai, DiaChiNha) values ('TT13', 'adminTT13', 'adminTT13', 'Son Thach', 'Nam', '0965236541', '865 Nguyen Trai');
+insert into ThuThu (ID, TaiKhoan, MatKhau, HoVaTen, GioiTinh, SoDienThoai, DiaChiNha) values ('TT14', 'adminTT14', 'adminTT14', 'Nguyen Duc Duc', 'Nam', '0958478586', '4022 Tran Hung Dao');
+insert into ThuThu (ID, TaiKhoan, MatKhau, HoVaTen, GioiTinh, SoDienThoai, DiaChiNha) values ('TT15', 'adminTT15', 'adminTT15', 'Do Hong Duc', 'Nam', '0754125250', '222 Dinh Tien Hoang');
+insert into ThuThu (ID, TaiKhoan, MatKhau, HoVaTen, GioiTinh, SoDienThoai, DiaChiNha) values ('TT16', 'adminTT16', 'adminTT16', 'Do Duy Tan', 'Nam', '09658625420', '6757 Thong Nhat');
+insert into ThuThu (ID, TaiKhoan, MatKhau, HoVaTen, GioiTinh, SoDienThoai, DiaChiNha) values ('TT17', 'adminTT17', 'adminTT17', 'Tran Minh Phong', 'Nam', '0752149634', '460 Quang Trung');
+insert into ThuThu (ID, TaiKhoan, MatKhau, HoVaTen, GioiTinh, SoDienThoai, DiaChiNha) values ('TT18', 'adminTT18', 'adminTT18', 'Nguyen Quoc Anh', 'Nam', '0765896525', '53 Hoang Dieu 2');
+insert into ThuThu (ID, TaiKhoan, MatKhau, HoVaTen, GioiTinh, SoDienThoai, DiaChiNha) values ('TT19', 'adminTT19', 'adminTT19', 'Le Van Duc', 'Nam', '0754853652', '631 Luong The Vinh');
+insert into ThuThu (ID, TaiKhoan, MatKhau, HoVaTen, GioiTinh, SoDienThoai, DiaChiNha) values ('TT20', 'adminTT20', 'adminTT20', 'Nguyen Thi Tuyet', 'Nu', '012654783521', '730 Le Quy Don');
+--KhuVucSach
+insert into KhuVucSach (MaKhuVuc, TenKhuVuc, IDTT) values ('A1', 'Giao Duc','TT01');
+insert into KhuVucSach (MaKhuVuc, TenKhuVuc, IDTT) values ('A2', 'Thieu Nhi', 'TT02');
+insert into KhuVucSach (MaKhuVuc, TenKhuVuc, IDTT) values ('A3', 'Tham Khao', 'TT03');
+insert into KhuVucSach (MaKhuVuc, TenKhuVuc, IDTT) values ('B1', 'Truyen', 'TT04');
+insert into KhuVucSach (MaKhuVuc, TenKhuVuc, IDTT) values ('B2', 'Nuoc Ngoai', 'TT05');
+insert into KhuVucSach (MaKhuVuc, TenKhuVuc, IDTT) values ('B3', 'Phap Luat', 'TT06');
+insert into KhuVucSach (MaKhuVuc, TenKhuVuc, IDTT) values ('B4', 'Y Hoc', 'TT07');
+insert into KhuVucSach (MaKhuVuc, TenKhuVuc, IDTT) values ('B5', 'Khoa Hoc Ky Thuat', 'TT08');
+insert into KhuVucSach (MaKhuVuc, TenKhuVuc, IDTT) values ('B6', 'Giao Trinh', 'TT09');
+
+
+
+--DAU SACH
+insert into DauSach(MaSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('VHVN','Kim Dong','Nguyen Minh Dang',1,'Viet Nam',50000)
+insert into DauSach(MaSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('VHNN','Hoi Nha Van','Doan Duc Hieu',1,'Viet Nam',50000)
+insert into DauSach(MaSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('THVN','Giao Duc','Nguyen Duc Tri',1,'Viet Nam',50000)
+insert into DauSach(MaSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('THNN','Giao Duc','Nguyen Duc Tri',1,'Nga',50000)
+insert into DauSach(MaSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('KHQS','Khoa hoc tu nhien va Cong nghe','Le Quoc Vinh',1,'Viet Nam',50000)
+insert into DauSach(MaSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('KHTG','Khoa hoc tu nhien va Cong nghe','Nelson Mandela',1,'My',50000)
+insert into DauSach(MaSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('KHVN','Khoa hoc va Ky thuat','Le Quoc Vinh',1,'Viet Nam',50000)
+insert into DauSach(MaSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('YHTH','Y hoc','Jonh Smith ',1,'Cuba',50000)
+insert into DauSach(MaSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('YHCM','Y hoc','Truong Minh Phuong',1,'Viet Nam',50000)
+insert into DauSach(MaSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('YHCT','Y hoc','Truong Minh Phuong',1,'Viet Nam',50000)
+insert into DauSach(MaSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('DSTT','Dai hoc Quoc Gia thanh pho Ho Chi Minh','Hong Ha',1,'Viet Nam',50000)
+insert into DauSach(MaSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('TOAN1','Dai hoc Su pham','Nguyen Van Toan',1,'Viet Nam',50000)
+insert into DauSach(MaSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('TOAN2','Dai hoc Su pham','Nguyen Van Toan',1,'Viet Nam',50000)
+insert into DauSach(MaSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('TOAN3','Dai hoc Su pham','Nguyen Van Toan',1,'Viet Nam',50000)
+insert into DauSach(MaSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('KINHTEDC1','Tri thuc','Do Thanh Nga',1,'Viet Nam',50000)
+insert into DauSach(MaSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('KINHTEDC2','Tri thuc','Do Thanh Nga',1,'Viet Nam',50000)
+insert into DauSach(MaSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('NMLT','Khoa hoc tu nhien va Cong nghe','Tran Cong Tu',1,'Viet Nam',50000)
+insert into DauSach(MaSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('KTLT','Khoa hoc va Ky thuat','Tran Cong Tu',1,'Viet Nam',50000)
+insert into DauSach(MaSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('TTLDCN','Kim Dong','Gosho Aoyama',1,'Nhat Ban',50000)
+insert into DauSach(MaSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('DL','Van hoa - Thong tin','Tu hoc IT',1,'Viet Nam',50000)
+insert into DauSach(MaSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('MCL','Van hoa - Thong tin','Tu hoc IT',1,'Viet Nam',50000)
+insert into DauSach(MaSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('TTHCM','Chinh tri Quoc Gia','Phan Dong',1,'Viet Nam',50000)
+insert into DauSach(MaSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('PLDC','Chinh tri Quoc Gia','Phan Dong',1,'Viet Nam',50000)
+insert into DauSach(MaSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('HP2013','Su That','Chinh Tri gia',1,'Viet Nam',50000)
+insert into DauSach(MaSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('HP1992','Su That','Chinh Tri gia',1,'Viet Nam',50000)
+
+insert into DauSach(MaSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('CTVN','Tuoi Tre','Cu Trong Xoay',1,'Viet Nam',50000)
+insert into DauSach(MaSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('TG','Tuoi Tre','Cu Trong Xoay',1,'Viet Nam',50000)
+
+--Cuon sach
+insert into CuonSach (MaCuon, TienDenBu, ThoiGianMuon, MaKhuVuc, MaSach, TenNXB) values ('TKVHVN01', 50000, 30, 'A3','VHVN' , 'Kim Dong');
+insert into CuonSach (MaCuon, TienDenBu, ThoiGianMuon, MaKhuVuc, MaSach, TenNXB) values ('TKVHNN01', 50000, 30, 'A3', 'VHNN', 'Hoi Nha Van');
+insert into CuonSach (MaCuon, TienDenBu, ThoiGianMuon, MaKhuVuc, MaSach, TenNXB) values ('TKTHVN01', 50000, 30, 'A1', 'THVN', 'Giao Duc');
+insert into CuonSach (MaCuon, TienDenBu, ThoiGianMuon, MaKhuVuc, MaSach, TenNXB) values ('TKTHNN01', 50000, 30, 'B2','THNN' , 'Giao Duc');
+insert into CuonSach (MaCuon, TienDenBu, ThoiGianMuon, MaKhuVuc, MaSach, TenNXB) values ('TKKHQS01', 50000, 30, 'B5', 'KHQS', 'Khoa hoc tu nhien va Cong nghe');
+insert into CuonSach (MaCuon, TienDenBu, ThoiGianMuon, MaKhuVuc, MaSach, TenNXB) values ('TKKHTG01', 50000, 30, 'B2', 'KHTG', 'Khoa hoc tu nhien va Cong nghe');
+insert into CuonSach (MaCuon, TienDenBu, ThoiGianMuon, MaKhuVuc, MaSach, TenNXB) values ('TKKHVN01', 50000, 30, 'B5', 'KHVN', 'Khoa hoc va Ky thuat');
+insert into CuonSach (MaCuon, TienDenBu, ThoiGianMuon, MaKhuVuc, MaSach, TenNXB) values ('TKYHTH01', 50000, 30, 'B4', 'YHTH', 'Y hoc');
+insert into CuonSach (MaCuon, TienDenBu, ThoiGianMuon, MaKhuVuc, MaSach, TenNXB) values ('TKYHCM01', 50000, 30, 'B4', 'YHCM', 'Y hoc');
+insert into CuonSach (MaCuon, TienDenBu, ThoiGianMuon, MaKhuVuc, MaSach, TenNXB) values ('TKYHCT01', 50000, 30, 'B4', 'YHCT', 'Y hoc');
+insert into CuonSach (MaCuon, TienDenBu, ThoiGianMuon, MaKhuVuc, MaSach, TenNXB) values ('GTDSTT01', 50000, 120, 'B6', 'DSTT', 'Dai hoc Quoc Gia thanh pho Ho Chi Minh');
+insert into CuonSach (MaCuon, TienDenBu, ThoiGianMuon, MaKhuVuc, MaSach, TenNXB) values ('GTTOAN101', 50000, 120, 'B6', 'TOAN1', 'Dai hoc Su pham');
+insert into CuonSach (MaCuon, TienDenBu, ThoiGianMuon, MaKhuVuc, MaSach, TenNXB) values ('GTTOAN201', 50000, 120, 'B6', 'TOAN2', 'Dai hoc Su pham');
+insert into CuonSach (MaCuon, TienDenBu, ThoiGianMuon, MaKhuVuc, MaSach, TenNXB) values ('GTTOAN301', 50000, 120, 'B6', 'TOAN3', 'Dai hoc Su pham');
+insert into CuonSach (MaCuon, TienDenBu, ThoiGianMuon, MaKhuVuc, MaSach, TenNXB) values ('GTKINHTEDC101',50000, 120,'B6','KINHTEDC1', 'Tri thuc');
+insert into CuonSach (MaCuon, TienDenBu, ThoiGianMuon, MaKhuVuc, MaSach, TenNXB) values ('GTNMLT01', 50000, 120, 'B6', 'NMLT', 'Khoa hoc tu nhien va Cong nghe');
+insert into CuonSach (MaCuon, TienDenBu, ThoiGianMuon, MaKhuVuc, MaSach, TenNXB) values ('GTKTLT01', 50000, 120, 'B6', 'KTLT', 'Khoa hoc va Ky thuat');
+insert into CuonSach (MaCuon, TienDenBu, ThoiGianMuon, MaKhuVuc, MaSach, TenNXB) values ('TKTTLDCN01', 50000, 30, 'B2', 'TTLDCN', 'Kim Dong');
+insert into CuonSach (MaCuon, TienDenBu, ThoiGianMuon, MaKhuVuc, MaSach, TenNXB) values ('TKDL01', 50000, 30, 'A3', 'DL', 'Van hoa - Thong tin');
+insert into CuonSach (MaCuon, TienDenBu, ThoiGianMuon, MaKhuVuc, MaSach, TenNXB) values ('TKMCL01', 50000, 30, 'A3', 'MCL', 'Van hoa - Thong tin');
+insert into CuonSach (MaCuon, TienDenBu, ThoiGianMuon, MaKhuVuc, MaSach, TenNXB) values ('TKTTHCM01', 50000, 30, 'A3', 'TTHCM', 'Chinh tri Quoc Gia');
+insert into CuonSach (MaCuon, TienDenBu, ThoiGianMuon, MaKhuVuc, MaSach, TenNXB) values ('TKPLDC01', 50000, 30, 'B3', 'PLDC', 'Chinh tri Quoc Gia');
+insert into CuonSach (MaCuon, TienDenBu, ThoiGianMuon, MaKhuVuc, MaSach, TenNXB) values ('TKHP201301', 50000, 30, 'A3', 'HP2013', 'Su That');
+insert into CuonSach (MaCuon, TienDenBu, ThoiGianMuon, MaKhuVuc, MaSach, TenNXB) values ('TKHP199201', 50000, 30, 'A3', 'HP1992', 'Su That');
+insert into CuonSach (MaCuon, TienDenBu, ThoiGianMuon, MaKhuVuc, MaSach, TenNXB) values ('TKCTVN01', 50000, 30, 'A3', 'CTVN', 'Tuoi Tre');
+insert into CuonSach (MaCuon, TienDenBu, ThoiGianMuon, MaKhuVuc, MaSach, TenNXB) values ('TKTG01', 50000, 30, 'A3', 'TG', 'Tuoi Tre');
+
+
+insert into CuonSach (MaCuon, TienDenBu, ThoiGianMuon, MaKhuVuc, MaSach, TenNXB) values ('TKVHVN02', 50000, 30, 'A3','VHVN' , 'Kim Dong');
+insert into CuonSach (MaCuon, TienDenBu, ThoiGianMuon, MaKhuVuc, MaSach, TenNXB) values ('TKVHNN02', 50000, 30, 'A3', 'VHNN', 'Hoi Nha Van');
+insert into CuonSach (MaCuon, TienDenBu, ThoiGianMuon, MaKhuVuc, MaSach, TenNXB) values ('TKTHVN02', 50000, 30, 'A1', 'THVN', 'Giao Duc');
+insert into CuonSach (MaCuon, TienDenBu, ThoiGianMuon, MaKhuVuc, MaSach, TenNXB) values ('TKTHNN02', 50000, 30, 'B2','THNN' , 'Giao Duc');
+insert into CuonSach (MaCuon, TienDenBu, ThoiGianMuon, MaKhuVuc, MaSach, TenNXB) values ('TKKHQS02', 50000, 30, 'B5', 'KHQS', 'Khoa hoc tu nhien va Cong nghe');
+insert into CuonSach (MaCuon, TienDenBu, ThoiGianMuon, MaKhuVuc, MaSach, TenNXB) values ('TKKHTG02', 50000, 30, 'B2', 'KHTG', 'Khoa hoc tu nhien va Cong nghe');
+insert into CuonSach (MaCuon, TienDenBu, ThoiGianMuon, MaKhuVuc, MaSach, TenNXB) values ('TKKHVN02', 50000, 30, 'B5', 'KHVN', 'Khoa hoc va Ky thuat');
+insert into CuonSach (MaCuon, TienDenBu, ThoiGianMuon, MaKhuVuc, MaSach, TenNXB) values ('TKYHTH02', 50000, 30, 'B4', 'YHTH', 'Y hoc');
+insert into CuonSach (MaCuon, TienDenBu, ThoiGianMuon, MaKhuVuc, MaSach, TenNXB) values ('TKYHCM02', 50000, 30, 'B4', 'YHCM', 'Y hoc');
+insert into CuonSach (MaCuon, TienDenBu, ThoiGianMuon, MaKhuVuc, MaSach, TenNXB) values ('TKYHCT02', 50000, 30, 'B4', 'YHCT', 'Y hoc');
+insert into CuonSach (MaCuon, TienDenBu, ThoiGianMuon, MaKhuVuc, MaSach, TenNXB) values ('GTDSTT02', 50000, 120, 'B6', 'DSTT', 'Dai hoc Quoc Gia thanh pho Ho Chi Minh');
+insert into CuonSach (MaCuon, TienDenBu, ThoiGianMuon, MaKhuVuc, MaSach, TenNXB) values ('GTTOAN102', 50000, 120, 'B6', 'TOAN1', 'Dai hoc Su pham');
+insert into CuonSach (MaCuon, TienDenBu, ThoiGianMuon, MaKhuVuc, MaSach, TenNXB) values ('GTTOAN202', 50000, 120, 'B6', 'TOAN2', 'Dai hoc Su pham');
+insert into CuonSach (MaCuon, TienDenBu, ThoiGianMuon, MaKhuVuc, MaSach, TenNXB) values ('GTTOAN302', 50000, 120, 'B6', 'TOAN3', 'Dai hoc Su pham');
+insert into CuonSach (MaCuon, TienDenBu, ThoiGianMuon, MaKhuVuc, MaSach, TenNXB) values ('GTKINHTEDC102', 50000, 120, 'B6', 'KINHTEDC1', 'Tri thuc');
+insert into CuonSach (MaCuon, TienDenBu, ThoiGianMuon, MaKhuVuc, MaSach, TenNXB) values ('GTNMLT02', 50000, 120, 'B6', 'NMLT', 'Khoa hoc tu nhien va Cong nghe');
+insert into CuonSach (MaCuon, TienDenBu, ThoiGianMuon, MaKhuVuc, MaSach, TenNXB) values ('GTKTLT02', 50000, 120, 'B6', 'KTLT', 'Khoa hoc va Ky thuat');
+insert into CuonSach (MaCuon, TienDenBu, ThoiGianMuon, MaKhuVuc, MaSach, TenNXB) values ('TKTTLDCN02', 50000, 30, 'B2', 'TTLDCN', 'Kim Dong');
+insert into CuonSach (MaCuon, TienDenBu, ThoiGianMuon, MaKhuVuc, MaSach, TenNXB) values ('TKDL02', 50000, 30, 'A3', 'DL', 'Van hoa - Thong tin');
+insert into CuonSach (MaCuon, TienDenBu, ThoiGianMuon, MaKhuVuc, MaSach, TenNXB) values ('TKMCL02', 50000, 30, 'A3', 'MCL', 'Van hoa - Thong tin');
+insert into CuonSach (MaCuon, TienDenBu, ThoiGianMuon, MaKhuVuc, MaSach, TenNXB) values ('TKTTHCM02', 50000, 30, 'A3', 'TTHCM', 'Chinh tri Quoc Gia');
+insert into CuonSach (MaCuon, TienDenBu, ThoiGianMuon, MaKhuVuc, MaSach, TenNXB) values ('TKPLDC02', 50000, 30, 'B3', 'PLDC', 'Chinh tri Quoc Gia');
+insert into CuonSach (MaCuon, TienDenBu, ThoiGianMuon, MaKhuVuc, MaSach, TenNXB) values ('TKHP201302', 50000, 30, 'A3', 'HP2013', 'Su That');
+insert into CuonSach (MaCuon, TienDenBu, ThoiGianMuon, MaKhuVuc, MaSach, TenNXB) values ('TKHP199202', 50000, 30, 'A3', 'HP1992', 'Su That');
+insert into CuonSach (MaCuon, TienDenBu, ThoiGianMuon, MaKhuVuc, MaSach, TenNXB) values ('TKCTVN02', 50000, 30, 'A3', 'CTVN', 'Tuoi Tre');
+insert into CuonSach (MaCuon, TienDenBu, ThoiGianMuon, MaKhuVuc, MaSach, TenNXB) values ('TKTG02', 50000, 30, 'A3', 'TG', 'Tuoi Tre');
+
