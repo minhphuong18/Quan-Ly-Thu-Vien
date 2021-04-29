@@ -270,3 +270,4 @@ Begin
 	Where MaCuon=@MaCuon and MaDocGia=@MaDocGia
 End
 Exec Proc_Xoa_Muon 'VL01','DG02';
+--test github
