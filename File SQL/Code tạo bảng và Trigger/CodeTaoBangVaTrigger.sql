@@ -79,7 +79,7 @@ CREATE TABLE QuaTrinhMuon
 	MaDocGia varchar(10),
 	NgayMuon datetime,
 	NgayHetHan datetime,
-	MaKhuVucSach int,
+	MaKhuVucSach varchar(50),
 	NgayTra datetime,
 	TinhTrang varchar(50),
 	TienDen int,
@@ -172,12 +172,14 @@ BEGIN
 		ROLLBACK TRAN
 END
 Go
-CREATE TRIGGER trigg_Thoi_Gian_Muon
+
+--Thoi gian muon quy dinh ben bang cuon sach phai lon hon thoi gian muon ben ban muon
+ALTER TRIGGER trigg_Thoi_Gian_Muon---------OK----------
 ON MUON
 AFTER INSERT, UPDATE
 AS 
 BEGIN
-	DECLARE @MA_CUON INT, @NGAY_MUON DATETIME, @NGAY_HET_HAN DATETIME, @THOI_GIAN_MUON INT
+	DECLARE @MA_CUON varchar(20), @NGAY_MUON DATETIME, @NGAY_HET_HAN DATETIME, @THOI_GIAN_MUON INT
 
 	SELECT @MA_CUON = inserted.MaCuon, @NGAY_MUON = inserted.NgayMuon, @NGAY_HET_HAN = inserted.NgayHetHan
 	FROM inserted
@@ -191,16 +193,16 @@ BEGIN
 END
 Go
 
-CREATE TRIGGER trigg_muon_sach
+ALTER TRIGGER trigg_muon_sach ------OK------
 ON MUON
 AFTER INSERT 
 AS 
 BEGIN 
-	DECLARE @MA_CUON INT,
-			@MA_DOC_GIA INT,
+	DECLARE @MA_CUON varchar(20),
+			@MA_DOC_GIA varchar(20),
 			@NGAY_MUON DATETIME = GETDATE(),
 			@NGAY_HET_HAN DATETIME,
-			@KHU_VUC_SACH INT
+			@KHU_VUC_SACH varchar(50)
 
 	SELECT @MA_CUON = inserted.MaCuon, @MA_DOC_GIA = inserted.MaDocGia, @NGAY_MUON = inserted.NgayMuon, @NGAY_HET_HAN = inserted.NgayHetHan
 	FROM inserted
@@ -217,8 +219,7 @@ BEGIN
 END
 Go
 
-
-CREATE PROCEDURE Proc_Cho_Muon_sach @MA_CUON INT, @MA_DOC_GIA INT, @NGAY_MUON DATETIME, @NGAY_HET_HAN DATETIME, @KHU_VUC_SACH INT
+ALTER PROCEDURE Proc_Cho_Muon_sach @MA_CUON varchar(20), @MA_DOC_GIA varchar(20), @NGAY_MUON DATETIME, @NGAY_HET_HAN DATETIME, @KHU_VUC_SACH varchar(50)
 AS 
 BEGIN
 
@@ -232,25 +233,23 @@ END
 Go
 
 
-CREATE TRIGGER trigg_tra_sach 
+CREATE TRIGGER trigg_tra_sach --------OK-------
 ON MUON 
 AFTER DELETE
 AS 
 BEGIN
-	DECLARE @MA_CUON INT,
-			@MA_DOC_GIA INT,
+	DECLARE @MA_CUON varchar(20),
+			@MA_DOC_GIA varchar(10),
 			@NGAY_MUON DATETIME,
 			@NGAY_HET_HAN DATETIME,
-			@KHU_VUC_SACH INT
+			@KHU_VUC_SACH varchar(50)
 	SELECT @MA_CUON =deleted.MaCuon, @MA_DOC_GIA = deleted.MaDocGia, @NGAY_MUON = deleted.NgayMuon, @NGAY_HET_HAN = deleted.NgayHetHan, @KHU_VUC_SACH = deleted.MaKhuVucSach
 	FROM deleted
-
-	
 
 	EXECUTE Proc_tra_sach @MA_CUON, @MA_DOC_GIA, @NGAY_MUON, @NGAY_HET_HAN, @KHU_VUC_SACH
 END
 Go
-CREATE PROCEDURE Proc_tra_sach @MA_CUON INT, @MA_DOC_GIA INT, @NGAY_MUON DATETIME, @NGAY_HET_HAN DATETIME, @KHU_VUC_SACH INT
+CREATE PROCEDURE Proc_tra_sach @MA_CUON varchar(20), @MA_DOC_GIA varchar(10), @NGAY_MUON DATETIME, @NGAY_HET_HAN DATETIME, @KHU_VUC_SACH varchar(50)
 AS 
 BEGIN
 	UPDATE QuaTrinhMuon
@@ -262,20 +261,20 @@ BEGIN
 
 END
 Go
+
+
 CREATE TRIGGER trigg_sua_trang_thai 
 ON QUATRINHMUON
 AFTER UPDATE 
 AS
 BEGIN
-	DECLARE @TINH_TRANG VARCHAR(50), @MA_CUON INT , @NGAY_MUON DATETIME, @NGAY_TRA DATETIME
+	DECLARE @TINH_TRANG VARCHAR(50), @MA_CUON varchar(20) , @NGAY_MUON DATETIME, @NGAY_TRA DATETIME
 
 	SELECT @TINH_TRANG = inserted.TinhTrang, @NGAY_MUON = inserted.NgayMuon, @NGAY_TRA = inserted.NgayTra, @MA_CUON = inserted.MaCuon
 	FROM inserted
 
 	UPDATE QuaTrinhMuon
 	SET TienDen = DBO.Func_tinh_tien_den(@MA_CUON, @NGAY_MUON, @NGAY_TRA, @TINH_TRANG)
-
-	
 
 END
 Go
