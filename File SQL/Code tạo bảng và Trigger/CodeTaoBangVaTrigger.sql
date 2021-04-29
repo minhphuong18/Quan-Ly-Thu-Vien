@@ -87,8 +87,7 @@ CREATE TABLE QuaTrinhMuon
 	Constraint QuaTrinhMuon_Primarykey Primary key(MaCuon,MaDocGia)
 )
 
-
-CREATE TRIGGER trigg_gender
+alter TRIGGER trigg_gender --OK--
 ON THUTHU
 AFTER INSERT, UPDATE
 AS
@@ -98,11 +97,13 @@ BEGIN
 	SELECT @GENDER = inserted.GioiTinh
 	FROM inserted
 
-	IF @GENDER != 'NAM' OR @GENDER != 'NU'
+	IF @GENDER != 'NAM' AND @GENDER != 'NU'
 		ROLLBACK TRAN
 END
+
 GO
-CREATE TRIGGER trigg_tien_den
+
+CREATE TRIGGER trigg_tien_den --OK--
 ON CUONSACH
 AFTER INSERT, UPDATE 
 AS 
@@ -117,7 +118,8 @@ BEGIN
 		ROLLBACK TRAN
 END
 Go
-CREATE TRIGGER trigg_ngay_muon
+----trigger kiem tra so ngay muon (ngay tra - ngay muon)
+CREATE TRIGGER trigg_ngay_muon ----OK-----
 ON MUON
 AFTER INSERT, UPDATE
 AS 
@@ -131,12 +133,13 @@ BEGIN
 		ROLLBACK TRAN
 END
 Go
-CREATE TRIGGER trigg_truc
+
+CREATE TRIGGER trigg_truc -----OK-----
 ON KHUVUCSACH
 AFTER INSERT, UPDATE
 AS 
 BEGIN
-	DECLARE @IDTT INT, @SO_KHU_VUC INT
+	DECLARE @IDTT varchar(10), @SO_KHU_VUC INT
 
 	SELECT @IDTT = inserted.IDTT
 	FROM inserted
@@ -145,16 +148,18 @@ BEGIN
 	FROM KhuVucSach
 	WHERE KhuVucSach.IDTT = @IDTT
 
-	IF @SO_KHU_VUC >= 1
+	IF @SO_KHU_VUC != 1
 		ROLLBACK TRAN
 END
+
 Go
-CREATE TRIGGER trigg_sach
+
+alter TRIGGER trigg_sach-----OK nhung khong can trigger nay-----
 ON CUONSACH
 AFTER INSERT, UPDATE
 AS 
 BEGIN
-	DECLARE @ID_SACH INT, @SO_KHU_VUC INT
+	DECLARE @ID_SACH varchar(20), @SO_KHU_VUC INT
 
 	SELECT @ID_SACH = inserted.MaCuon
 	FROM inserted
@@ -163,7 +168,7 @@ BEGIN
 	FROM CuonSach
 	WHERE CuonSach.MaCuon = @ID_SACH
 
-	IF @SO_KHU_VUC >= 1
+	IF @SO_KHU_VUC != 1
 		ROLLBACK TRAN
 END
 Go
