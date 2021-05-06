@@ -87,7 +87,7 @@ CREATE TABLE QuaTrinhMuon
 	Constraint QuaTrinhMuon_Primarykey Primary key(MaCuon,MaDocGia)
 )
 
-alter TRIGGER trigg_gender --OK--
+create TRIGGER trigg_gender --OK--
 ON THUTHU
 AFTER INSERT, UPDATE
 AS
@@ -161,7 +161,7 @@ END
 Go
 DROP TRIGGER trigg_truc
 
-alter TRIGGER trigg_sach-----OK nhung khong can trigger nay-----
+CREATE TRIGGER trigg_sach-----OK nhung khong can trigger nay-----
 ON CUONSACH
 AFTER INSERT, UPDATE
 AS 
@@ -197,14 +197,14 @@ BEGIN
 	FROM CuonSach
 	WHERE CuonSach.MaCuon = @MA_CUON
 
-	IF DATEDIFF (DAY,@NGAY_MUON, @NGAY_HET_HAN) < @THOI_GIAN_MUON
+	IF DATEDIFF (DAY,@NGAY_MUON, @NGAY_HET_HAN) > @THOI_GIAN_MUON---Cho nay ban dau sai dau
 		ROLLBACK TRAN
 END
 Go
 
 DROP TRIGGER trigg_Thoi_Gian_Muon
 
-ALTER TRIGGER trigg_muon_sach ------OK------
+CREATE TRIGGER trigg_muon_sach ------OK------
 ON MUON
 AFTER INSERT 
 AS 
@@ -230,7 +230,7 @@ BEGIN
 END
 Go
 
-ALTER PROCEDURE Proc_Cho_Muon_sach @MA_CUON varchar(20), @MA_DOC_GIA varchar(20), @NGAY_MUON DATETIME, @NGAY_HET_HAN DATETIME, @KHU_VUC_SACH varchar(50)
+CREATE PROCEDURE Proc_Cho_Muon_sach @MA_CUON varchar(20), @MA_DOC_GIA varchar(20), @NGAY_MUON DATETIME, @NGAY_HET_HAN DATETIME, @KHU_VUC_SACH varchar(50)
 AS 
 BEGIN
 
@@ -245,7 +245,7 @@ Go
 
 DROP TRIGGER trigg_muon_sach
 
-CREATE TRIGGER trigg_tra_sach --------OK-------
+CREATE TRIGGER trigg_tra_sach --------CHUA OK-------
 ON MUON 
 AFTER DELETE
 AS 
