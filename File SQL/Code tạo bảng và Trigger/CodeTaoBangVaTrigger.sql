@@ -1,4 +1,4 @@
-Create Database QuanLyThuVien
+﻿Create Database QuanLyThuVien
 Go
 Use QuanLyThuVien
 Go
@@ -87,7 +87,8 @@ CREATE TABLE QuaTrinhMuon
 	Constraint QuaTrinhMuon_Primarykey Primary key(MaCuon,MaDocGia)
 )
 
-create TRIGGER trigg_gender --OK--
+--Trigger kiem tra gender cua ThuThu: 'Nam' or 'Nu'
+Create TRIGGER trigg_ThuThu_gender --OK--
 ON THUTHU
 AFTER INSERT, UPDATE
 AS
@@ -100,12 +101,10 @@ BEGIN
 	IF @GENDER != 'NAM' AND @GENDER != 'NU'
 		ROLLBACK TRAN
 END
-
 GO
 
-DROP TRIGGER trigg_gender
-
-CREATE TRIGGER trigg_tien_den --OK--
+--Trigger kiem tra: Tiendenbu(CuonSach) nhap vao phai nho hon gia sach(Dau sach)
+CREATE TRIGGER trigg_CuonSach_tien_den --OK--
 ON CUONSACH
 AFTER INSERT, UPDATE 
 AS 
@@ -119,12 +118,10 @@ BEGIN
 	IF @TIEN_DEN > @GIA
 		ROLLBACK TRAN
 END
-
-
-
 Go
-----trigger kiem tra so ngay muon (ngay tra - ngay muon)
-CREATE TRIGGER trigg_ngay_muon ----OK-----
+
+--Trigger kiem tra: ngay tra nhap vao phai lon hon ngay muon
+CREATE TRIGGER trigg_Muon_ngay_muon ----OK-----
 ON MUON
 AFTER INSERT, UPDATE
 AS 
@@ -138,9 +135,9 @@ BEGIN
 		ROLLBACK TRAN
 END
 Go
-DROP TRIGGER trigg_ngay_muon
 
-CREATE TRIGGER trigg_truc -----OK-----
+--Mot ThuThu chi duoc truc o 1 khu vuc duy nhat
+CREATE TRIGGER trigg_KhuVucSach_truc -----OK-----
 ON KHUVUCSACH
 AFTER INSERT, UPDATE
 AS 
@@ -157,33 +154,14 @@ BEGIN
 	IF @SO_KHU_VUC != 1
 		ROLLBACK TRAN
 END
-
 Go
-DROP TRIGGER trigg_truc
-
-CREATE TRIGGER trigg_sach-----OK nhung khong can trigger nay-----
-ON CUONSACH
-AFTER INSERT, UPDATE
-AS 
-BEGIN
-	DECLARE @ID_SACH varchar(20), @SO_KHU_VUC INT
-
-	SELECT @ID_SACH = inserted.MaCuon
-	FROM inserted
-
-	SELECT @SO_KHU_VUC = COUNT(*)
-	FROM CuonSach
-	WHERE CuonSach.MaCuon = @ID_SACH
-
-	IF @SO_KHU_VUC != 1
-		ROLLBACK TRAN
-END
-Go
-
-DROP TRIGGER trigg_sach
 
 --Thoi gian muon quy dinh ben bang cuon sach phai lon hon thoi gian muon ben ban muon
-ALTER TRIGGER trigg_Thoi_Gian_Muon---------OK----------
+
+--Thoi gian cho muon phai nho hon thoi gian toi da
+
+--Co the chinh sua thanh tu dong cap nhat: ngay het han theo ngay bat dau(bang Muon) va so ngay muon(Cuon Sach)
+Create TRIGGER trigg_Muon_Thoi_Gian_Muon---------OK----------
 ON MUON
 AFTER INSERT, UPDATE
 AS 
@@ -197,13 +175,13 @@ BEGIN
 	FROM CuonSach
 	WHERE CuonSach.MaCuon = @MA_CUON
 
-	IF DATEDIFF (DAY,@NGAY_MUON, @NGAY_HET_HAN) > @THOI_GIAN_MUON---Cho nay ban dau sai dau
-		ROLLBACK TRAN
+	IF (DATEDIFF (DAY,@NGAY_MUON, @NGAY_HET_HAN) > @THOI_GIAN_MUON)
+		ROLLBACK TRAN;
 END
 Go
 
-DROP TRIGGER trigg_Thoi_Gian_Muon
-
+--Trigger cap nhat khu vuc sach cho cuon sach duoc muon
+--Cap nhat vao bang Qua Trinh Muon cac thong tin cua bang Muon
 CREATE TRIGGER trigg_muon_sach ------OK------
 ON MUON
 AFTER INSERT 
@@ -213,8 +191,8 @@ BEGIN
 			@MA_DOC_GIA varchar(20),
 			@NGAY_MUON DATETIME = GETDATE(),
 			@NGAY_HET_HAN DATETIME,
-			@KHU_VUC_SACH varchar(50)
-
+			@KHU_VUC_SACH varchar(10)
+	
 	SELECT @MA_CUON = inserted.MaCuon, @MA_DOC_GIA = inserted.MaDocGia, @NGAY_MUON = inserted.NgayMuon, @NGAY_HET_HAN = inserted.NgayHetHan
 	FROM inserted
 
@@ -237,14 +215,13 @@ BEGIN
 	DECLARE @NGAY_TRA DATETIME = NULL, @TINH_TRANG VARCHAR(50) = NULL, @TIEN_DEN INT = NULL
 	INSERT INTO QuaTrinhMuon VALUES (@MA_CUON, @MA_DOC_GIA,@NGAY_MUON, @NGAY_HET_HAN,@KHU_VUC_SACH, @NGAY_TRA, @TINH_TRANG, @TIEN_DEN)
 
+	--Cuon sach do hien dang duoc muon
 	UPDATE CuonSach
 	SET MaKhuVuc = NULL
 	WHERE CuonSach.MaCuon = @MA_CUON
 END
 Go
-
-DROP TRIGGER trigg_muon_sach
-
+--Cai nay chiu day
 CREATE TRIGGER trigg_tra_sach --------CHUA OK-------
 ON MUON 
 AFTER DELETE
@@ -274,16 +251,15 @@ BEGIN
 END
 Go
 
-DROP TRIGGER trigg_tra_sach
-
+--Khi cap nhap Tinh_Trang, Ngay_Muon, Ngay_Tra thi se tu tinh Tien den
 CREATE TRIGGER trigg_sua_trang_thai 
 ON QUATRINHMUON
 AFTER UPDATE 
 AS
 BEGIN
-	DECLARE @TINH_TRANG VARCHAR(50), @MA_CUON varchar(20) , @NGAY_MUON DATETIME, @NGAY_TRA DATETIME
+	DECLARE @TINH_TRANG VARCHAR(50), @MA_CUON varchar(20) , @Ngay_Het_Han DATETIME, @NGAY_TRA DATETIME
 
-	SELECT @TINH_TRANG = inserted.TinhTrang, @NGAY_MUON = inserted.NgayMuon, @NGAY_TRA = inserted.NgayTra, @MA_CUON = inserted.MaCuon
+	SELECT @TINH_TRANG = inserted.TinhTrang, @Ngay_Het_Han = inserted.NgayHetHan, @NGAY_TRA = inserted.NgayTra, @MA_CUON = inserted.MaCuon
 	FROM inserted
 
 	UPDATE QuaTrinhMuon
@@ -291,13 +267,15 @@ BEGIN
 
 END
 Go
-CREATE FUNCTION Func_tinh_tien_den (@MA_CUON INT, @NGAY_MUON DATETIME, @NGAY_TRA DATETIME , @TINH_TRANG VARCHAR(50))
+
+--Function tra ve so tien phai den
+CREATE FUNCTION Func_tinh_tien_den (@MA_CUON INT, @Ngay_Het_Han DATETIME, @NGAY_TRA DATETIME , @TINH_TRANG VARCHAR(50))
 RETURNS INT
 AS 
 BEGIN
 	DECLARE @TIEN_DEN INT, @TIEN_SACH INT
-	IF DATEDIFF(DAY,@NGAY_MUON, @NGAY_TRA) < 0
-		SET @TIEN_DEN +=( DATEDIFF (DAY,@NGAY_MUON, @NGAY_TRA)/7)*10000
+	IF DATEDIFF(DAY,@Ngay_Het_Han, @NGAY_TRA) < 0
+		SET @TIEN_DEN +=( DATEDIFF (DAY,@Ngay_Het_Han, @NGAY_TRA)/7)*10000
 
 	SELECT @TIEN_SACH = CuonSach.TienDenBu
 	FROM CuonSach
@@ -309,7 +287,148 @@ BEGIN
 END
 Go
 
+--Trigger kiem tra xem so luong cuon sach co vuot qua so luong sach toi da khong?
+CREATE TRIGGER trigg_CuonSach_SLSach
+ON CuonSach
+AFTER INSERT, UPDATE
+AS
+BEGIN
+	DECLARE @MASACH VARCHAR(10),@TENNXB VARCHAR(50),@SLSACHTOIDA INT,@SLSACHHIENTAI INT
+	
+	--Lay ra ma dau sach cua cuon sach duoc them vao/chinh sua
+	SELECT @MASACH=inserted.MaSach,@TENNXB=inserted.TenNXB
+	FROM inserted;
+	
+	--Lay ra so luong sach toi da tu bang DauSach
+	SELECT @SLSACHTOIDA=SoLuongCuon
+	FROM DauSach
+	WHERE MaSach=@MASACH AND TenNXB=@TENNXB;
 
+	--Tinh ra so luong sach hien tai tu bang CuonSach
+	SELECT @SLSACHHIENTAI=COUNT(*)
+	FROM CuonSach
+	WHERE MaSach=@MASACH AND TenNXB=@TENNXB
+
+	IF(@SLSACHHIENTAI>@SLSACHTOIDA)
+	BEGIN
+		PRINT 'So luong cuon sach da vuot qua so luong sach hien co';
+		Rollback Tran;
+	END
+END
+
+--Trigger kiem tra cuon sach duoc muon co dang bi muon boi DocGia khac khong
+CREATE TRIGGER trigg_Muon_CheckMaCuon
+ON MUON
+AFTER INSERT,UPDATE
+AS
+BEGIN
+	DECLARE @MACUON VARCHAR(10)
+	
+	--Lay MaCuon duoc them vao/chinh sua
+	SELECT @MACUON=MaCuon
+	From inserted
+
+	--Kiem tra xem cuon sach da duoc muon chua
+	IF (NOT EXISTS ( SELECT *
+			   FROM CuonSach
+			   WHERE MaCuon=@MACUON AND MaKhuVuc IS NOT NULL))
+	BEGIN
+		PRINT 'Cuon sach nay da duoc muon roi. Vui long kiem tra lai MaCuon';
+		Rollback Tran;
+	END
+END;
+
+--Trigger kiem tra xem DocGia co duoc muon cuon sach khong
+CREATE TRIGGER trigg_MUON_CheckDangKy
+ON MUON
+AFTER INSERT,UPDATE
+AS
+BEGIN
+	DECLARE @MASACH VARCHAR(10),@TENNXB VARCHAR(50),@SLSACHMUON INT,@SLSACHDANGKY INT,@TONGSL INT,@SLMAX INT
+
+	--Lay ra Masach cua CuonSach duocmuon
+	SELECT @MASACH=MaSach,@TENNXB=CuonSach.TenNXB
+	FROM inserted, CuonSach
+	Where inserted.MaCuon=CuonSach.MaCuon;
+
+	--Lay ra SLMax(so luong cuon sach) hien co cua MaSach do
+	SELECT @SLMAX=SoLuongCuon
+	FROM DauSach
+	WHERE MaSach=@MASACH AND TenNXB=@TENNXB;
+
+	--Lay ra so luong CuonSach dang duoc muon cua MaSach: 
+	--Count(*) - 1(Do luot nay cua DocGia hien tai muon)
+	SELECT @SLSACHMUON=COUNT(*)
+	FROM MUON M,CuonSach CS
+	WHERE M.MaCuon=CS.MaCuon AND CS.MaSach=@MASACH AND CS.TenNXB=@TENNXB
+
+	Set @SLSACHMUON-=1;
+
+	--Lay ra so luong CuonSach dang duoc dang ky o bang DangKy
+	SELECT @SLSACHDANGKY=COUNT(*)
+	FROM DangKy
+	WHERE MaSach=@MASACH AND TenNXB=@TENNXB
+
+	--Tinh Tong so luong sach= @SLSachMuon + @SLSachDangKy
+	Set @TONGSL=@SLSACHMUON+@SLSACHDANGKY
+	--Neu tong @TongSL < @SLMAX thi cho muon
+	--Neu be hon thi xet DocGia do co dang ky muon sach nay ko? Xet thu tu dang ky cua DocGia nay
+	IF(@TONGSL>=@SLMAX)
+	BEGIN
+		--Neu toan bo sach deu da duoc Muon roi thi ko cho muon nua
+		IF(@SLSACHMUON>=@SLMAX)
+			ROLLBACK TRAN;
+		ELSE
+		BEGIN
+			--Xet xem DocGia co so thu tu dang ky muon sach la bao nhieu?
+			-- -->Co duoc muon hay khong?
+			--Nguoi ko dang ky truoc --> khong duoc muon
+			DECLARE @STT INT, @MADOCGIA varchar(10)
+
+			SELECT @MADOCGIA=inserted.MaDocGia
+			FROM inserted;
+
+			IF(Not Exists(SELECT * 
+						  FROM DangKy
+						  Where MaSach=@MASACH and TenNXB=@TENNXB and MaDocGia=@MADOCGIA))
+			BEGIN
+				PRINT 'Toan bo sach da duoc muon va dang ky.';
+				Rollback Tran;
+			END
+			ELSE
+				BEGIN
+					--Lay stt dang ky
+					Select @STT=dbo.Func_DangKy_BangSTTDangKy(@MASACH,@TENNXB,@MADOCGIA)
+					--Truong hop chua den so thu tu dang ky muon sach
+					IF(@STT+@SLSACHMUON > @SLMAX)
+					BEGIN
+						PRINT 'Hien tai chua toi luot muon sach cua ban. Vui long quay lai sau';
+						Rollback Tran;
+					END
+					--Truong hop @STT+@SLSACHMUON <= @SLMAX thi DocGia da dang ky do se duoc muon
+				END
+		END
+	END
+END;
+
+--Function tra ve stt dang ky cua DocGia, MaSach do
+Create FUNCTION Func_DangKy_BangSTTDangKy(@MASACH VARCHAR(10),@TENNXB VARCHAR(50),@MADOCGIA varchar(10))
+RETURNS INT
+AS
+Begin
+	Declare @Stt int
+	
+	--Lay so thu tu
+	Select @Stt=STT
+	From(
+	--Gan STT dang ky cua DocGia cho tung MaSach duoc dang ky
+	Select ROW_NUMBER() OVER (PARTITION BY MaSach,TenNXB Order by MaSach,TenNXB,NgayDangKy) as STT,
+	MaSach,TenNXB,MaDocGia,NgayDangKy,GhiChu
+	From DangKy) as KQ
+	Where MaSach=@MASACH and TenNXB=@TENNXB and MaDocGia=@MADOCGIA
+	
+	Return @Stt;
+End
 
 ----------------------------------------INSERT DU LIEU-----------------------------------------
 -----------------------------------------------------------------------------------------------
@@ -335,6 +454,7 @@ insert into ThuThu (ID, TaiKhoan, MatKhau, HoVaTen, GioiTinh, SoDienThoai, DiaCh
 insert into ThuThu (ID, TaiKhoan, MatKhau, HoVaTen, GioiTinh, SoDienThoai, DiaChiNha) values ('TT18', 'adminTT18', 'adminTT18', 'Nguyen Quoc Anh', 'Nam', '0765896525', '53 Hoang Dieu 2');
 insert into ThuThu (ID, TaiKhoan, MatKhau, HoVaTen, GioiTinh, SoDienThoai, DiaChiNha) values ('TT19', 'adminTT19', 'adminTT19', 'Le Van Duc', 'Nam', '0754853652', '631 Luong The Vinh');
 insert into ThuThu (ID, TaiKhoan, MatKhau, HoVaTen, GioiTinh, SoDienThoai, DiaChiNha) values ('TT20', 'adminTT20', 'adminTT20', 'Nguyen Thi Tuyet', 'Nu', '012654783521', '730 Le Quy Don');
+
 --KhuVucSach-----OK-----
 insert into KhuVucSach (MaKhuVuc, TenKhuVuc, IDTT) values ('A1', 'Giao Duc','TT01');
 insert into KhuVucSach (MaKhuVuc, TenKhuVuc, IDTT) values ('A2', 'Thieu Nhi', 'TT02');
