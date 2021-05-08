@@ -4,8 +4,8 @@ Use QuanLyThuVien
 Go
 Create Table ThuThu(
 ID varchar(10) constraint ThuThu_Primarykey_ID primary key,
-TaiKhoan varchar(50) constraint ThuThu_TaiKhoan_Unique_NotNULL unique not null,
-MatKhau varchar(50) constraint ThuThu_MatKhau_NotNULL not null,
+TaiKhoan varchar(50) constraint ThuThu_TaiKhoan_Unique_NotNULL unique,
+MatKhau varchar(50) constraint ThuThu_MatKhau_NotNULL,
 HoVaTen varchar(50),
 GioiTinh varchar(3),
 SoDienThoai varchar(15), 
