@@ -264,12 +264,13 @@ BEGIN
 
 	UPDATE QuaTrinhMuon
 	SET TienDen = DBO.Func_tinh_tien_den(@MA_CUON, @Ngay_Het_Han, @NGAY_TRA, @TINH_TRANG)
+	WHERE QuaTrinhMuon.MaCuon = @MA_CUON
 
 END
 Go
 
 --Function tra ve so tien phai den
-CREATE FUNCTION Func_tinh_tien_den (@MA_CUON INT, @Ngay_Het_Han DATETIME, @NGAY_TRA DATETIME , @TINH_TRANG VARCHAR(50))
+ALTER FUNCTION Func_tinh_tien_den (@MA_CUON VARCHAR(20), @Ngay_Het_Han DATETIME, @NGAY_TRA DATETIME , @TINH_TRANG VARCHAR(50))
 RETURNS INT
 AS 
 BEGIN
@@ -417,6 +418,18 @@ BEGIN
 		END
 	END
 END;
+
+Create Procedure Proc_Xoa_DangKy
+@MaSach varchar(10),
+@TenNXB varchar(50),
+@MaDocGia varchar(10)
+AS
+Begin
+	Delete DangKy
+	Where MaSach=@MaSach and TenNXB=@TenNXB and MaDocGia=@MaDocGia
+End
+Go
+
 
 --Function tra ve stt dang ky cua DocGia, MaSach do
 Create FUNCTION Func_DangKy_BangSTTDangKy(@MASACH VARCHAR(10),@TENNXB VARCHAR(50),@MADOCGIA varchar(10))
@@ -651,7 +664,8 @@ INSERT INTO Muon(MaCuon, MaDocGia, NgayMuon, NgayHetHan, MaKhuVucSach) values('T
 INSERT INTO Muon(MaCuon, MaDocGia, NgayMuon, NgayHetHan, MaKhuVucSach) values('TKCTVN02', 'DG016','01-01-2021', '01-31-2021','A3' )
 INSERT INTO Muon(MaCuon, MaDocGia, NgayMuon, NgayHetHan, MaKhuVucSach) values('TKHP199202', 'DG016','01-01-2021', '01-31-2021','A3' )
 INSERT INTO Muon(MaCuon, MaDocGia, NgayMuon, NgayHetHan, MaKhuVucSach) values('TKHP201302', 'DG016','01-01-2021', '01-31-2021','A3' )
-INSERT INTO Muon(MaCuon, MaDocGia, NgayMuon, NgayHetHan, MaKhuVucSach) values('TKTTHCM02', 'DG016','01-01-2021', '01-31-2021','A3' )
+
+INSERT INTO Muon(MaCuon, MaDocGia, NgayMuon, NgayHetHan, MaKhuVucSach) values('TKTTHCM02', 'DG016','04-15-2021', '05-08-2021','A3' )
 
 ------QUA TRINH MUON-------
 
@@ -664,7 +678,7 @@ BEGIN
 	FROM Muon
 	WHERE DATEDIFF(DAY,MUON.NgayHetHan, GETDATE()) > 0
 END
-
+EXEC PROC_DANH_SACH_QUA_HAN
 --PROC IN RA DANH SACH TOI HAN TRA SACH
 CREATE PROCEDURE PROC_DANH_SACH_TOI_HAN_TRA
 AS
@@ -674,6 +688,7 @@ BEGIN
 	WHERE DATEDIFF(DAY,MUON.NgayHetHan, GETDATE()) = 0
 END
 --a
+EXEC PROC_DANH_SACH_TOI_HAN_TRA 
 
 --PROC IN RA CAC MA CUON VA DOC GIA DA MUON THEO MA SACH
 CREATE PROCEDURE PROC_DANH_SACH_DA_MUON @MASACH VARCHAR(10)
@@ -683,6 +698,7 @@ BEGIN
 	FROM MUON, CuonSach
 	WHERE MUON.MaCuon = CuonSach.MaCuon AND CuonSach.MaSach = @MASACH
 END
+EXEC PROC_DANH_SACH_DA_MUON 'TKVHVN01'
 
 -- TAO TAI KHOAN CHO THU THU
 CREATE TRIGGER TRIGG_THEM_THU_THU
@@ -698,3 +714,43 @@ BEGIN
 	SET TaiKhoan = @MA_TT, MatKhau = '1'
 	WHERE ThuThu.ID = @MA_TT
 END
+-----------------------
+-- MẤT SÁCH THÌ SẼ XÓA ĐI MÃ CUỐN ĐÓ BÊN BẢNG MƯỢN VÀ CUỐN SÁCH
+
+ALTER TRIGGER TRIGG_MAT_SACH --------------THANH CONG 50%-----------------
+ON QUATRINHMUON
+AFTER UPDATE
+AS 
+BEGIN
+	DECLARE @TINH_TRANG VARCHAR(50), @MA_CUON VARCHAR(20), @MA_SACH VARCHAR(20), @DATE_DIE DATETIME, @DATE_START DATETIME
+	SELECT @TINH_TRANG =inserted.TinhTrang, @MA_CUON = inserted.MaCuon, @MA_SACH = CuonSach.MaSach, @DATE_DIE = inserted.NgayHetHan, @DATE_START = inserted.NgayMuon
+	FROM inserted, CuonSach
+	WHERE inserted.MaCuon = CuonSach.MaCuon 
+
+	IF @TINH_TRANG = 'MAT'
+	BEGIN
+		DELETE Muon
+		WHERE Muon.MaCuon = @MA_CUON
+
+		DELETE CuonSach
+		WHERE CuonSach.MaCuon = @MA_CUON
+
+		UPDATE DauSach
+		SET SoLuongCuon = SoLuongCuon - 1
+		WHERE DauSach.MaSach = @MA_SACH
+
+		UPDATE QuaTrinhMuon
+		SET TienDen = DBO.Func_tinh_tien_den(@MA_CUON,@DATE_DIE,GETDATE(), @TINH_TRANG)
+		WHERE MaCuon = @MA_CUON
+	END
+END
+
+
+select * from CUONSACH where MaCuon= 'TKYHCT01'
+
+SELECT *
+FROM CuonSach
+WHERE CuonSach.MaCuon = 'TKYHCT01'
+
+SELECT *
+FROM DauSach
