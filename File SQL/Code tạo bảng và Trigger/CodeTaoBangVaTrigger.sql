@@ -14,6 +14,7 @@ DiaChiNha varchar(50)
 Go
 Create Table DauSach(
 MaSach varchar(10),
+TenSach nvarchar(100),
 TenNXB varchar(50),
 TacGia varchar(50),
 SoLuongCuon int constraint DauSach_SoLuongCuon_Duong check (SoLuongCuon>0),
@@ -328,27 +329,6 @@ BEGIN
 	From inserted
 
 	--Dem so luongTRIGGER trigg_Muon_CheckMaCuon
-ON MUON
-AFTER INSERT,UPDATE
-AS
-BEGIN
-	DECLARE @MACUON VARCHAR(10),@SL int
-	
-	--Lay MaCuon duoc them vao/chinh sua
-	SELECT @MACUON=MaCuon
-	From inserted
-
-	--
-	SELECT @SL=count(*)
-	FROM Muon
-	WHERE MaCuon=@MACUON
-	--Kiem tra xem cuon sach da duoc muon chua
-	IF ( @SL>=2)
-	BEGIN
-		PRINT 'Cuon sach nay da duoc muon roi. Vui long kiem tra lai MaCuon';
-		Rollback Tran;
-	END
-END;
 	SELECT @SL=count(*)
 	FROM Muon
 	WHERE MaCuon=@MACUON
@@ -496,33 +476,33 @@ insert into KhuVucSach (MaKhuVuc, TenKhuVuc, IDTT) values ('B6', 'Giao Trinh', '
 
 
 --DAU SACH-------OK------
-insert into DauSach(MaSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('VHVN','Kim Dong','Nguyen Minh Dang',1,'Viet Nam',50000)
-insert into DauSach(MaSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('VHNN','Hoi Nha Van','Doan Duc Hieu',1,'Viet Nam',50000)
-insert into DauSach(MaSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('THVN','Giao Duc','Nguyen Duc Tri',1,'Viet Nam',50000)
-insert into DauSach(MaSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('THNN','Giao Duc','Nguyen Duc Tri',1,'Nga',50000)
-insert into DauSach(MaSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('KHQS','Khoa hoc tu nhien va Cong nghe','Le Quoc Vinh',1,'Viet Nam',50000)
-insert into DauSach(MaSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('KHTG','Khoa hoc tu nhien va Cong nghe','Nelson Mandela',1,'My',50000)
-insert into DauSach(MaSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('KHVN','Khoa hoc va Ky thuat','Le Quoc Vinh',1,'Viet Nam',50000)
-insert into DauSach(MaSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('YHTH','Y hoc','Jonh Smith ',1,'Cuba',50000)
-insert into DauSach(MaSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('YHCM','Y hoc','Truong Minh Phuong',1,'Viet Nam',50000)
-insert into DauSach(MaSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('YHCT','Y hoc','Truong Minh Phuong',1,'Viet Nam',50000)
-insert into DauSach(MaSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('DSTT','Dai hoc Quoc Gia thanh pho Ho Chi Minh','Hong Ha',1,'Viet Nam',50000)
-insert into DauSach(MaSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('TOAN1','Dai hoc Su pham','Nguyen Van Toan',1,'Viet Nam',50000)
-insert into DauSach(MaSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('TOAN2','Dai hoc Su pham','Nguyen Van Toan',1,'Viet Nam',50000)
-insert into DauSach(MaSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('TOAN3','Dai hoc Su pham','Nguyen Van Toan',1,'Viet Nam',50000)
-insert into DauSach(MaSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('KINHTEDC1','Tri thuc','Do Thanh Nga',1,'Viet Nam',50000)
-insert into DauSach(MaSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('KINHTEDC2','Tri thuc','Do Thanh Nga',1,'Viet Nam',50000)
-insert into DauSach(MaSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('NMLT','Khoa hoc tu nhien va Cong nghe','Tran Cong Tu',1,'Viet Nam',50000)
-insert into DauSach(MaSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('KTLT','Khoa hoc va Ky thuat','Tran Cong Tu',1,'Viet Nam',50000)
-insert into DauSach(MaSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('TTLDCN','Kim Dong','Gosho Aoyama',1,'Nhat Ban',50000)
-insert into DauSach(MaSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('DL','Van hoa - Thong tin','Tu hoc IT',1,'Viet Nam',50000)
-insert into DauSach(MaSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('MCL','Van hoa - Thong tin','Tu hoc IT',1,'Viet Nam',50000)
-insert into DauSach(MaSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('TTHCM','Chinh tri Quoc Gia','Phan Dong',1,'Viet Nam',50000)
-insert into DauSach(MaSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('PLDC','Chinh tri Quoc Gia','Phan Dong',1,'Viet Nam',50000)
-insert into DauSach(MaSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('HP2013','Su That','Chinh Tri gia',1,'Viet Nam',50000)
-insert into DauSach(MaSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('HP1992','Su That','Chinh Tri gia',1,'Viet Nam',50000)
-insert into DauSach(MaSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('CTVN','Tuoi Tre','Cu Trong Xoay',1,'Viet Nam',50000)
-insert into DauSach(MaSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('TG','Tuoi Tre','Cu Trong Xoay',1,'Viet Nam',50000)
+insert into DauSach(MaSach,TenSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('VHVN','Van hoc Viet Nam','Kim Dong','Nguyen Minh Dang',1,'Viet Nam',50000)
+insert into DauSach(MaSach,TenSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('VHNN','Van hoc nuoc ngoai','Hoi Nha Van','Doan Duc Hieu',1,'Viet Nam',50000)
+insert into DauSach(MaSach,TenSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('THVN','Tin hoc Viet Nam','Giao Duc','Nguyen Duc Tri',1,'Viet Nam',50000)
+insert into DauSach(MaSach,TenSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('THNN','Tin hoc nuoc ngoai','Giao Duc','Nguyen Duc Tri',1,'Nga',50000)
+insert into DauSach(MaSach,TenSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('KHQS','Khoa hoc quan su','Khoa hoc tu nhien va Cong nghe','Le Quoc Vinh',1,'Viet Nam',50000)
+insert into DauSach(MaSach,TenSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('KHTG','Khoa hoc the gioi','Khoa hoc tu nhien va Cong nghe','Nelson Mandela',1,'My',50000)
+insert into DauSach(MaSach,TenSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('KHVN','Khoa hoc Viet Nam','Khoa hoc va Ky thuat','Le Quoc Vinh',1,'Viet Nam',50000)
+insert into DauSach(MaSach,TenSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('YHTH','Y hoc tong hop','Y hoc','Jonh Smith ',1,'Cuba',50000)
+insert into DauSach(MaSach,TenSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('YHCM','Y hoc chuyen mon','Y hoc','Truong Minh Phuong',1,'Viet Nam',50000)
+insert into DauSach(MaSach,TenSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('YHCT','Y hoc co truyen','Y hoc','Truong Minh Phuong',1,'Viet Nam',50000)
+insert into DauSach(MaSach,TenSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('DSTT','Dai so tuyen tinh','Dai hoc Quoc Gia thanh pho Ho Chi Minh','Hong Ha',1,'Viet Nam',50000)
+insert into DauSach(MaSach,TenSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('TOAN1','Toan 1','Dai hoc Su pham','Nguyen Van Toan',1,'Viet Nam',50000)
+insert into DauSach(MaSach,TenSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('TOAN2','Toan 2','Dai hoc Su pham','Nguyen Van Toan',1,'Viet Nam',50000)
+insert into DauSach(MaSach,TenSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('TOAN3','Toan 3','Dai hoc Su pham','Nguyen Van Toan',1,'Viet Nam',50000)
+insert into DauSach(MaSach,TenSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('KINHTEDC1','Kinh te hoc dai cuong 1','Tri thuc','Do Thanh Nga',1,'Viet Nam',50000)
+insert into DauSach(MaSach,TenSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('KINHTEDC2','Kinh te hoc dai cuong 2','Tri thuc','Do Thanh Nga',1,'Viet Nam',50000)
+insert into DauSach(MaSach,TenSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('NMLT','Nhap mon lap trinh','Khoa hoc tu nhien va Cong nghe','Tran Cong Tu',1,'Viet Nam',50000)
+insert into DauSach(MaSach,TenSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('KTLT','Ky thuat lap trinh','Khoa hoc va Ky thuat','Tran Cong Tu',1,'Viet Nam',50000)
+insert into DauSach(MaSach,TenSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('TTLDCN','Tham tu lung danh conan','Kim Dong','Gosho Aoyama',1,'Nhat Ban',50000)
+insert into DauSach(MaSach,TenSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('DL','Deep Learning','Van hoa - Thong tin','Tu hoc IT',1,'Viet Nam',50000)
+insert into DauSach(MaSach,TenSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('MCL','Machine Learning','Van hoa - Thong tin','Tu hoc IT',1,'Viet Nam',50000)
+insert into DauSach(MaSach,TenSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('TTHCM','Tu tuong Ho Chi Minh','Chinh tri Quoc Gia','Phan Dong',1,'Viet Nam',50000)
+insert into DauSach(MaSach,TenSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('PLDC','Phap luat dai cuong','Chinh tri Quoc Gia','Phan Dong',1,'Viet Nam',50000)
+insert into DauSach(MaSach,TenSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('HP2013','Hien phap 2013','Su That','Chinh Tri gia',1,'Viet Nam',50000)
+insert into DauSach(MaSach,TenSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('HP1992','Hien phap 1992','Su That','Chinh Tri gia',1,'Viet Nam',50000)
+insert into DauSach(MaSach,TenSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('CTVN','Co tich Viet Nam','Tuoi Tre','Cu Trong Xoay',1,'Viet Nam',50000)
+insert into DauSach(MaSach,TenSach, TenNXB, TacGia, SoLuongCuon, QuocGia, GiaSach) values('TG','Hoi xoay dap xoay','Tuoi Tre','Cu Trong Xoay',1,'Viet Nam',50000)
 
 --Cuon sach--------OK--------
 insert into CuonSach (MaCuon, TienDenBu, ThoiGianMuon, MaKhuVuc, MaSach, TenNXB) values ('TKVHVN01', 50000, 30, 'A3','VHVN' , 'Kim Dong');
