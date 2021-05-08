@@ -251,7 +251,7 @@ BEGIN
 END
 Go
 
---Khi cap nhap Tinh_Trang, Ngay_Muon, Ngay_Tra thi se tu tinh Tien den
+--Khi cap nhat Tinh_Trang, Ngay_Muon, Ngay_Tra thi se tu tinh Tien den
 CREATE TRIGGER trigg_sua_trang_thai 
 ON QUATRINHMUON
 AFTER UPDATE 
@@ -263,7 +263,7 @@ BEGIN
 	FROM inserted
 
 	UPDATE QuaTrinhMuon
-	SET TienDen = DBO.Func_tinh_tien_den(@MA_CUON, @NGAY_MUON, @NGAY_TRA, @TINH_TRANG)
+	SET TienDen = DBO.Func_tinh_tien_den(@MA_CUON, @Ngay_Het_Han, @NGAY_TRA, @TINH_TRANG)
 
 END
 Go
