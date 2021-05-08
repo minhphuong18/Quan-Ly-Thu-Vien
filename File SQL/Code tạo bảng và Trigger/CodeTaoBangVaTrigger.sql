@@ -342,15 +342,39 @@ BEGIN
 END;
 
 --Trigger kiem tra xem DocGia co duoc muon cuon sach khong
-CREATE TRIGGER trigg_MUON_CheckDangKy
+--Trigger kiem tra cuon sach duoc muon co dang bi muon boi DocGia khac khong
+alter TRIGGER trigg_Muon_CheckMaCuon
 ON MUON
 AFTER INSERT,UPDATE
+AS
+BEGIN
+	DECLARE @MACUON VARCHAR(10),@SL int
+	
+	--Lay MaCuon duoc them vao/chinh sua
+	SELECT @MACUON=MaCuon
+	From inserted
+
+	--
+	SELECT @SL=count(*)
+	FROM Muon
+	WHERE MaCuon=@MACUON
+	--Kiem tra xem cuon sach da duoc muon chua
+	IF ( @SL>=2)
+	BEGIN
+		PRINT 'Cuon sach nay da duoc muon roi. Vui long kiem tra lai MaCuon';
+		Rollback Tran;
+	END
+END;
+
+ALTER TRIGGER trigg_MUON_CheckDangKy
+ON MUON
+FOR INSERT,UPDATE
 AS
 BEGIN
 	DECLARE @MASACH VARCHAR(10),@TENNXB VARCHAR(50),@SLSACHMUON INT,@SLSACHDANGKY INT,@TONGSL INT,@SLMAX INT
 
 	--Lay ra Masach cua CuonSach duocmuon
-	SELECT @MASACH=MaSach,@TENNXB=CuonSach.TenNXB
+	SELECT @MASACH=MaSach,@TENNXB=TenNXB
 	FROM inserted, CuonSach
 	Where inserted.MaCuon=CuonSach.MaCuon;
 
@@ -380,7 +404,10 @@ BEGIN
 	BEGIN
 		--Neu toan bo sach deu da duoc Muon roi thi ko cho muon nua
 		IF(@SLSACHMUON>=@SLMAX)
-			ROLLBACK TRAN;
+		BEGIN
+			PRINT 'Toan bo sach da duoc muon';
+			ROLLBACK;
+		END
 		ELSE
 		BEGIN
 			--Xet xem DocGia co so thu tu dang ky muon sach la bao nhieu?
@@ -390,8 +417,8 @@ BEGIN
 
 			SELECT @MADOCGIA=inserted.MaDocGia
 			FROM inserted;
-
-			IF(Not Exists(SELECT * 
+			
+			IF( Not Exists(SELECT * 
 						  FROM DangKy
 						  Where MaSach=@MASACH and TenNXB=@TENNXB and MaDocGia=@MADOCGIA))
 			BEGIN
@@ -401,7 +428,7 @@ BEGIN
 			ELSE
 				BEGIN
 					--Lay stt dang ky
-					Select @STT=dbo.Func_DangKy_BangSTTDangKy(@MASACH,@TENNXB,@MADOCGIA)
+					SET @STT=dbo.Func_DangKy_BangSTTDangKy(@MASACH,@TENNXB,@MADOCGIA)
 					--Truong hop chua den so thu tu dang ky muon sach
 					IF(@STT+@SLSACHMUON > @SLMAX)
 					BEGIN
@@ -412,7 +439,7 @@ BEGIN
 					--Truong hop @STT+@SLSACHMUON <= @SLMAX thi DocGia da dang ky do se duoc muon
 					BEGIN
 						--Xoa luot dang ky do
-						EXEC dbo.Proc_Xoa_DangKy @MASACH,@TENNXB,@MADOCGIA
+						EXEC dbo.Proc_Xoa_DangKy @MASACH,@TENNXB,@MADOCGIA;
 					END
 				END
 		END
