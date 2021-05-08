@@ -329,7 +329,7 @@ BEGIN
 	From inserted
 
 	--Kiem tra xem cuon sach da duoc muon chua
-	IF (NOT EXISTS ( SELECT *
+	IF (EXISTS ( SELECT *
 			   FROM Muon
 			   WHERE MaCuon=@MaCuon))
 	BEGIN
