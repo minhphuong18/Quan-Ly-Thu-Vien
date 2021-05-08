@@ -409,7 +409,7 @@ BEGIN
 					--Truong hop @STT+@SLSACHMUON <= @SLMAX thi DocGia da dang ky do se duoc muon
 					BEGIN
 						--Xoa luot dang ky do
-						EXEC dbo.Proc_Xoa_DangKy(@MASACH,@TENNXB,@MADOCGIA);
+						EXEC dbo.Proc_Xoa_DangKy @MASACH,@TENNXB,@MADOCGIA
 					END
 				END
 		END
