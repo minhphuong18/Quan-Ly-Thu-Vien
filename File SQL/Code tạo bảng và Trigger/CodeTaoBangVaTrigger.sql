@@ -405,7 +405,12 @@ BEGIN
 						PRINT 'Hien tai chua toi luot muon sach cua ban. Vui long quay lai sau';
 						Rollback Tran;
 					END
+					ELSE
 					--Truong hop @STT+@SLSACHMUON <= @SLMAX thi DocGia da dang ky do se duoc muon
+					BEGIN
+						--Xoa luot dang ky do
+						EXEC dbo.Proc_Xoa_DangKy(@MASACH,@TENNXB,@MADOCGIA);
+					END
 				END
 		END
 	END
