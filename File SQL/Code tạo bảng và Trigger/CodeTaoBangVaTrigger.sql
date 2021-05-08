@@ -83,7 +83,6 @@ CREATE TABLE QuaTrinhMuon
 	NgayTra datetime,
 	TinhTrang varchar(50),
 	TienDen int,
-	Constraint QuaTrinhMuon_Foreignkey_MaCuonMaDocGia Foreign key (MaCuon, MaDocGia) references Muon (MaCuon, MaDocGia),
 	Constraint QuaTrinhMuon_Primarykey Primary key(MaCuon,MaDocGia)
 )
 
@@ -322,16 +321,39 @@ ON MUON
 AFTER INSERT,UPDATE
 AS
 BEGIN
-	DECLARE @MACUON VARCHAR(10)
+	DECLARE @MACUON VARCHAR(10),@SL int
 	
 	--Lay MaCuon duoc them vao/chinh sua
 	SELECT @MACUON=MaCuon
 	From inserted
 
+	--Dem so luongTRIGGER trigg_Muon_CheckMaCuon
+ON MUON
+AFTER INSERT,UPDATE
+AS
+BEGIN
+	DECLARE @MACUON VARCHAR(10),@SL int
+	
+	--Lay MaCuon duoc them vao/chinh sua
+	SELECT @MACUON=MaCuon
+	From inserted
+
+	--
+	SELECT @SL=count(*)
+	FROM Muon
+	WHERE MaCuon=@MACUON
 	--Kiem tra xem cuon sach da duoc muon chua
-	IF (EXISTS ( SELECT *
-			   FROM Muon
-			   WHERE MaCuon=@MaCuon))
+	IF ( @SL>=2)
+	BEGIN
+		PRINT 'Cuon sach nay da duoc muon roi. Vui long kiem tra lai MaCuon';
+		Rollback Tran;
+	END
+END;
+	SELECT @SL=count(*)
+	FROM Muon
+	WHERE MaCuon=@MACUON
+	--Kiem tra xem cuon sach da duoc muon chua
+	IF ( @SL>=2)
 	BEGIN
 		PRINT 'Cuon sach nay da duoc muon roi. Vui long kiem tra lai MaCuon';
 		Rollback Tran;
