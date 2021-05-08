@@ -330,8 +330,8 @@ BEGIN
 
 	--Kiem tra xem cuon sach da duoc muon chua
 	IF (NOT EXISTS ( SELECT *
-			   FROM CuonSach
-			   WHERE MaCuon=@MACUON AND MaKhuVuc IS NOT NULL))
+			   FROM Muon
+			   WHERE MaCuon=@MaCuon))
 	BEGIN
 		PRINT 'Cuon sach nay da duoc muon roi. Vui long kiem tra lai MaCuon';
 		Rollback Tran;
