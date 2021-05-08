@@ -4,8 +4,8 @@ Use QuanLyThuVien
 Go
 Create Table ThuThu(
 ID varchar(10) constraint ThuThu_Primarykey_ID primary key,
-TaiKhoan varchar(50) constraint ThuThu_TaiKhoan_Unique_NotNULL unique,
-MatKhau varchar(50) constraint ThuThu_MatKhau_NotNULL,
+TaiKhoan varchar(50) constraint ThuThu_TaiKhoan_Unique unique,
+MatKhau varchar(50),
 HoVaTen varchar(50),
 GioiTinh varchar(3),
 SoDienThoai varchar(15), 
@@ -754,3 +754,47 @@ WHERE CuonSach.MaCuon = 'TKYHCT01'
 
 SELECT *
 FROM DauSach
+
+
+
+
+-----------------
+-- PROC IN RA SO SACH MA TAT CA DOC GIA ĐÃ MƯỢN
+CREATE PROCEDURE PROC_SO_SACH_MUON
+AS 
+BEGIN
+	SELECT DocGia.MaDocGia, DocGia.HoVaTen, COUNT(MaCuon) AS SO_LUON_SACH_DA_MUON
+	FROM Muon, DocGia
+	WHERE Muon.MaDocGia = DocGia.MaDocGia
+	GROUP BY DocGia.MaDocGia, HoVaTen
+END
+exec PROC_SO_SACH_MUON
+CREATE PROCEDURE PROC_DANH_SACH_DA_TRA
+AS 
+BEGIN
+	SELECT MACUON, MaKhuVucSach, TinhTrang
+	FROM QuaTrinhMuon
+	WHERE QuaTrinhMuon.NgayTra = GETDATE()
+END
+exec PROC_DANH_SACH_DA_TRA
+
+--so luong sach da muon theo ma sach
+alter PROCEDURE PROC_SO_SACH_DA_MUON
+AS 
+BEGIN
+	SELECT CuonSacH.MaSach,DauSach.TENSACH, COUNT(MUON.MaCuon) AS SO_LUON_SACH_DA_MUON
+	FROM CuonSach, MUON, DauSach
+	WHERE CuonSach.MaCuon = MUON.MaCuon AND DauSach.MaSach = CuonSach.MaSach
+	GROUP BY CuonSach.MaSach, DauSach.TENSACH
+END
+exec PROC_SO_SACH_DA_MUON
+--in ra thu thu dang truc theo khu vuc
+CREATE PROCEDURE PROC_THU_THU_TRUC @MAKHUVUC VARCHAR(10)
+AS 
+BEGIN
+	SELECT ThuThu.ID, THUTHU.HoVaTen, ThuThu.GioiTinh, ThuThu.SoDienThoai, ThuThu.DiaChiNha
+	FROM KhuVucSach, THUTHU
+	WHERE KhuVucSach.MaKhuVuc = @MAKHUVUC AND ThuThu.ID = KhuVucSach.IDTT
+END
+
+exec PROC_THU_THU_TRUC 'A1'
