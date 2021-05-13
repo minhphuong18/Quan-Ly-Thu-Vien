@@ -341,31 +341,6 @@ BEGIN
 	END
 END;
 
---Trigger kiem tra xem DocGia co duoc muon cuon sach khong
---Trigger kiem tra cuon sach duoc muon co dang bi muon boi DocGia khac khong
-alter TRIGGER trigg_Muon_CheckMaCuon
-ON MUON
-AFTER INSERT,UPDATE
-AS
-BEGIN
-	DECLARE @MACUON VARCHAR(10),@SL int
-	
-	--Lay MaCuon duoc them vao/chinh sua
-	SELECT @MACUON=MaCuon
-	From inserted
-
-	--
-	SELECT @SL=count(*)
-	FROM Muon
-	WHERE MaCuon=@MACUON
-	--Kiem tra xem cuon sach da duoc muon chua
-	IF ( @SL>=2)
-	BEGIN
-		PRINT 'Cuon sach nay da duoc muon roi. Vui long kiem tra lai MaCuon';
-		Rollback Tran;
-	END
-END;
-
 CREATE TRIGGER trigg_MUON_CheckDangKy
 ON MUON
 AFTER UPDATE
@@ -442,7 +417,14 @@ BEGIN
 						EXEC dbo.Proc_Xoa_DangKy @MASACH,@TENNXB,@MADOCGIA;
 					END
 				END
-		END
+		 END
+	END
+	ELSE
+	BEGIN
+		IF( Not Exists(SELECT * 
+						  FROM DangKy
+						  Where MaSach=@MASACH and TenNXB=@TENNXB and MaDocGia=@MADOCGIA))
+		EXEC dbo.Proc_Xoa_DangKy @MASACH,@TENNXB,@MADOCGIA;
 	END
 END;
 
