@@ -807,3 +807,569 @@ BEGIN
 END
 
 exec PROC_THU_THU_TRUC 'A1'
+----------------------MINH DANG PROCEDURE---------------------
+--Thu thu
+Create Procedure Proc_Them_ThuThu
+@ID varchar(10),
+@TaiKhoan varchar(50),
+@MatKhau varchar(50),
+@HoVaTen varchar(50),
+@GioiTinh varchar(3),
+@SoDienThoai varchar(15),
+@DiaChiNha varchar(50)
+AS
+Begin
+	Insert into ThuThu values(@ID, @TaiKhoan,@MatKhau,
+	@HoVaTen,@GioiTinh,@SoDienThoai,@DiaChiNha);
+End
+Go
+Exec Proc_Them_ThuThu 'TT01','nmd','123','Nguyen Minh Dang','Nam','0393279375','572k';
+Go
+Create Procedure Proc_Sua_ThuThu
+@ID varchar(10),
+@TaiKhoan varchar(50),
+@MatKhau varchar(50),
+@HoVaTen varchar(50),
+@GioiTinh varchar(3),
+@SoDienThoai varchar(15),
+@DiaChiNha varchar(50)
+AS
+Begin
+	Update ThuThu
+	Set TaiKhoan=@TaiKhoan,MatKhau=@MatKhau,HoVaTen=@HoVaTen,
+	GioiTinh=@GioiTinh, SoDienThoai=@SoDienThoai, DiaChiNha=@DiaChiNha
+	Where ID=@ID
+End
+Go
+Exec Proc_Sua_ThuThu 'TT01','nmd','345','Nguyen Minh Dang','Nam','0393279375','572k ap Ngu Phuc';
+Go
+Create Procedure Proc_Xoa_ThuThu
+@ID varchar(10)
+AS
+Begin
+	Update KhuVucSach
+	Set IDTT=NULL
+	Where IDTT=@ID
+
+	Delete ThuThu
+	Where ID=@ID
+End
+Go
+Exec Proc_Xoa_ThuThu 'TT01';
+Go
+--Khu Vuc Sach
+Create Function Func_Check_KNIDTT(@IDTT varchar(10))
+returns bit
+AS
+Begin
+	declare @check bit=0
+	if Exists(Select ID
+	From ThuThu
+	Where ID=@IDTT)
+		Set @check=1;
+	return @check;
+End
+Go
+Create Procedure Proc_Them_KhuVucSach
+@MaKhuVuc varchar(10),
+@TenKhuVuc varchar(50),
+@IDTT varchar(10)
+AS
+Begin
+	if(dbo.Func_Check_KNIDTT(@IDTT)=1)
+		Insert into KhuVucSach values(@MaKhuVuc,@TenKhuVuc,@IDTT);
+	else
+		Print 'IDTT khong ton tai';
+End
+Go
+Exec Proc_Them_KhuVucSach 'A01','Tham Khao','TT01';
+Go
+Create Procedure Proc_Sua_KhuVucSach
+@MaKhuVuc varchar(10),
+@TenKhuVuc varchar(50),
+@IDTT varchar(10)
+AS
+Begin
+	if(dbo.Func_Check_KNIDTT(@IDTT)=1)
+		Update KhuVucSach 
+		Set TenKhuVuc=@TenKhuVuc, IDTT=@IDTT
+		Where MaKhuVuc=@MaKhuVuc;
+	else
+		Print 'IDTT khong ton tai';
+End
+Go
+Exec Proc_Sua_KhuVucSach 'A01','Giao Trinh','TT01';
+Go
+Create Procedure Proc_Xoa_KhuVucSach
+@MaKhuVuc varchar(10)
+As
+Begin
+	Update CuonSach
+	Set MaKhuVuc=null
+	Where MaCuon=@MaKhuVuc
+
+	Delete KhuVucSach
+	Where MaKhuVuc=@MaKhuVuc
+End
+Go
+Exec Proc_Xoa_KhuVucSach 'A01';
+Go
+--Dang ky
+Create Function Func_Check_KNMaDocGia(@MaDocGia varchar(10))
+returns bit
+AS
+Begin
+	declare @check bit=0
+	if Exists(Select MaDocGia
+	From DocGia
+	Where MaDocGia=@MaDocGia)
+		Set @check=1;
+	return @check;
+End
+Go
+Create Function Func_Check_KNMaSachTenNXB(@MaSach varchar(10), @TenNXB varchar(50))
+returns bit
+AS
+Begin
+	declare @check bit=0
+	if Exists(Select MaSach
+	From DauSach
+	Where MaSach=@MaSach and TenNXB=@TenNXB)
+		Set @check=1;
+	return @check;
+End
+Go
+Create Procedure Proc_Them_DangKy
+@MaSach varchar(10),
+@TenNXB varchar(50),
+@MaDocGia varchar(10),
+@NgayDangKy datetime,
+@GhiChu varchar(150)
+AS
+Begin
+	if(dbo.Func_Check_KNMaDocGia(@MaDocGia)=1)
+		if(dbo.Func_Check_KNMaSachTenNXB(@MaSach,@TenNXB)=1)
+			Insert into DangKy values(@MaSach,@TenNXB,
+			@MaDocGia,@NgayDangKy,@GhiChu);
+		else
+			Print 'MaSach, TenNXB khong ton tai';
+	else
+		Print 'MaDocGia khong ton tai';
+End
+Go
+Exec Proc_Them_DangKy 'e','f','2','2001-7-20',null;
+Go
+Create Procedure Proc_Sua_DangKy
+@MaSach varchar(10),
+@TenNXB varchar(50),
+@MaDocGia varchar(10),
+@NgayDangKy datetime,
+@GhiChu varchar(150)
+AS
+Begin
+	if(dbo.Func_Check_KNMaDocGia(@MaDocGia)=1)
+		if(dbo.Func_Check_KNMaSachTenNXB(@MaSach,@TenNXB)=1)
+			Update DangKy
+			Set NgayDangKy=@NgayDangKy,GhiChu=@GhiChu
+			Where MaDocGia=@MaDocGia and TenNXB=@TenNXB and
+			MaSach=@MaSach
+		else
+			Print 'MaSach, TenNXB khong ton tai';
+	else
+		Print 'MaDocGia khong ton tai';
+End
+Go
+Exec Proc_Sua_DangKy 'e','f','2','2001-7-10',null;
+Go
+Create Procedure Proc_Xoa_DangKy
+@MaSach varchar(10),
+@TenNXB varchar(50),
+@MaDocGia varchar(10)
+AS
+Begin
+	Delete DangKy
+	Where MaSach=@MaSach and TenNXB=@TenNXB and MaDocGia=@MaDocGia
+End
+Go
+Exec Proc_Xoa_DangKy 'e', 'f','2';
+Go
+--Muon
+Create Function Func_Check_KNMaCuon(@MaCuon varchar(20))
+returns bit
+AS
+Begin
+	declare @check bit=0
+	if Exists (Select MaCuon
+	From CuonSach
+	Where MaCuon=@MaCuon)
+		Set @check =1;
+	return @check;
+End
+Go
+Create Procedure Proc_Them_Muon
+@MaCuon varchar(20),
+@MaDocGia  varchar(10),
+@NgayMuon datetime,
+@NgayHetHan datetime
+--MaKhuVucSach khong them vao
+--Vi se lay o bang Cuon Sach qua
+AS
+Begin
+	if(dbo.Func_Check_KNMaCuon(@MaCuon)=1)
+		if(dbo.Func_Check_KNMaDocGia(@MaDocGia)=1)
+		Begin
+			declare @MaKhuVucSach int
+			--Phan nay khong can vi da co trigger trigg_muon_sach 
+			--de lay ma khu vuc
+			--Select @MaKhuVucSach=MaKhuVuc
+			--From CuonSach
+			--Where MaCuon=@MaCuon
+			Insert into Muon(MaCuon,MaDocGia,NgayMuon,NgayHetHan) values(@MaCuon, @MaDocGia,@NgayMuon,@NgayHetHan);
+		End
+		else
+			Print 'MaDocGia khong ton tai';
+	else
+		Print 'MaCuon khong ton tai';
+End
+Go
+Exec Proc_Them_Muon 'p2','2',null,null;
+Go
+Create Function Func_Check_MaKhuVucSach(@MaCuon varchar(20),@MaKhuVucSach varchar(10))
+returns bit
+AS
+Begin
+	declare @check bit=0
+	if Exists(Select MaCuon
+	From CuonSach
+	Where MaCuon=@MaCuon and MaKhuVuc=@MaKhuVucSach)
+		Set @check=1;
+	return @check;
+End
+Go
+Create Procedure Proc_Sua_Muon
+@MaCuon varchar(20),
+@MaDocGia  varchar(10),
+@NgayMuon datetime,
+@NgayHetHan datetime
+--@MaKhuVucSach varchar(10)
+AS
+Begin
+	--Cho nhap vao va kiem tra xem co khop hay khong
+	--if(dbo.Func_Check_MaKhuVucSach(@MaCuon,@MaKhuVucSach)=1)
+	--	Update Muon
+	--	Set NgayMuon=@NgayMuon, NgayHetHan=@NgayHetHan,
+	--	MaKhuVucSach=@MaKhuVucSach
+	--	Where MaCuon=@MaCuon and MaDocGia=@MaDocGia
+	--else
+	--	Print 'MaKhuVucSach khong khop';
+	Update Muon
+	Set NgayMuon=@NgayMuon, NgayHetHan=@NgayHetHan
+	Where MaCuon=@MaCuon and MaDocGia=@MaDocGia
+End
+Go
+Exec Proc_Sua_Muon 'p2','2','2001-2-2',null;
+Go
+Create Procedure Proc_Xoa_Muon
+@MaCuon varchar(20),
+@MaDocGia  varchar(10)
+AS
+Begin
+	Delete Muon
+	Where MaCuon=@MaCuon and MaDocGia=@MaDocGia
+End
+Exec Proc_Xoa_Muon 'p2','2';
+-------------------------------------------------
+
+-----------------PROC MINH PHUONG------------------
+--Doc Gia
+Create Procedure Proc_Them_DocGia
+@MaDocGia varchar(10),
+@HoVaTen varchar(50),
+@GioiTinh varchar(50),
+@NgaySinh datetime,
+@SoDienThoai varchar(15),
+@Email varchar(50),
+@DiaChi varchar(50),
+@HinhAnh Image
+AS
+Begin
+	Insert into DocGia values(@MaDocGia, @HoVaTen,@GioiTinh,@NgaySinh ,@SoDienThoai,@Email ,@DiaChi ,@HinhAnh);
+End
+Go
+exec dbo.Proc_Them_DocGia'1','a','nam',null,'0123','assss','assss',null;
+Create Procedure Proc_Sua_DocGia
+@MaDocGia varchar(10),
+@HoVaTen varchar(50),
+@GioiTinh varchar(50),
+@NgaySinh datetime,
+@SoDienThoai varchar(15),
+@Email varchar(50),
+@DiaChi varchar(50),
+@HinhAnh Image
+AS
+Begin
+	 Update DocGia 
+	 Set HoVaTen= @HoVaTen,GioiTinh =@GioiTinh,NgaySinh= @NgaySinh ,SoDienThoai= @SoDienThoai, Email= @Email ,DiaChi= @DiaChi ,HinhAnh= @HinhAnh
+	 Where MaDocGia = @MaDocGia
+End
+Go
+exec dbo.Proc_Sua_DocGia '1','ab','nam',null,'0123','assss','assss',null;
+create Procedure Proc_Xoa_DocGia
+@MaDocGia varchar(10)
+AS
+Begin
+	Delete DangKy
+	Where MaDocGia=@MaDocGia
+	Delete QuaTrinhMuon
+	Where MaDocGia=@MaDocGia
+	Delete Muon
+	Where MaDocGia=@MaDocGia
+	Delete DocGia
+	Where MaDocGia = @MaDocGia
+End
+Go
+--Dau Sach
+exec dbo.Proc_Xoa_DocGia '1';
+Create Procedure Proc_Sua_DauSach
+@MaSach varchar(10),
+@TenSach varchar(20),
+@TenNXB varchar(50),
+@TacGia varchar(50),
+@SoLuongCuon int,
+@QuocGia varchar(50),
+@GiaSach int
+AS
+Begin
+	Update DauSach
+	Set TenNXB= @TenNXB , TenSach=@TenSach,TacGia=@TacGia ,SoLuongCuon=@SoLuongCuon , QuocGia=@QuocGia ,GiaSach=@GiaSach
+	Where MaSach=@MaSach
+	
+
+End
+Go
+exec dbo.Proc_Sua_DauSach 'p','p','a',2,'a',131654;
+create Procedure Proc_Them_DauSach
+@MaSach varchar(10),
+@TenSach varchar(20),
+@TenNXB varchar(50),
+@TacGia varchar(50),
+@SoLuongCuon int,
+@QuocGia varchar(50),
+@GiaSach int
+AS
+Begin
+	Insert into DauSach values(@MaSach,@TenSach,@TenNXB ,@TacGia ,@SoLuongCuon ,@QuocGia ,@GiaSach );
+End
+Go
+
+exec dbo.Proc_Them_DauSach 'p','p','a',5,'a',131654;
+--Dang lam
+Create Procedure Proc_Xoa_DauSach
+@MaSach varchar(10),
+@TenNXB varchar(50)
+AS
+Begin
+	declare @temptable table(MaCuon varchar(20));
+	--Them toan bo MaCuon vao bang temptable
+	Insert Into @temptable
+	Select MaCuon
+	From CuonSach
+	Where MaSach=@MaSach and TenNXB=@TenNXB;
+	--Tien hanh xoa du lieu ben bang DangKy
+	Delete DangKy
+	Where MaSach=@MaSach and TenNXB=@TenNXB;
+	--Tien hanh xoa cuon sach
+	declare @MaCuon varchar(20)='a';
+	While(@MaCuon is not null)
+	Begin
+		Set @MaCuon=null;
+
+		Set @MaCuon = (Select TOP 1 MaCuon
+		From @temptable);
+
+		Exec dbo.Proc_Xoa_CuonSach @MaCuon;
+
+		Delete @temptable
+		Where MaCuon=@MaCuon;
+	End
+	Delete DauSach
+	Where MaSach=@MaSach
+End
+Go
+Exec Proc_Xoa_DauSach 'a','b';
+--Cuon Sach
+
+Create Function Func_Check_DauSach(@MaSach varchar(10))
+returns bit
+AS
+Begin
+	declare @check bit=0
+	if Exists(Select MaSach
+	From DauSach
+	Where MaSach = @MaSach)
+		Set @check=1;
+	return @check;
+End
+Go
+Create Function Func_Check_KhuVuc(@MaKhuVuc varchar(10))
+returns bit
+AS
+Begin
+	declare @check bit=0
+	if Exists(Select MaKhuVuc
+	From KhuVucSach
+	Where MaKhuVuc = @MaKhuVuc)
+		Set @check=1;
+	return @check;
+End
+Go
+Create Function Func_Check_NXB(@TenNXB varchar(50))
+returns bit
+AS
+Begin
+	declare @check bit=0
+	if Exists(Select TenNXB
+	From DauSach
+	Where TenNXB = @TenNXB)
+		Set @check=1;
+	return @check;
+End
+Go
+
+Create Procedure Proc_Sua_CuonSach
+@MaCuon varchar(20),
+@TienDenBu int,
+@ThoiGianMuon int,
+@MaKhuVuc varchar(10),
+@MaSach varchar(10),
+@TenNXB varchar(50)
+AS
+Begin
+if(dbo.Func_Check_NXB(@TenNXB)=1)
+		begin
+			if (dbo.Func_Check_KhuVuc(@MaKhuVuc)=1)
+				begin
+					if(dbo.Func_Check_DauSach(@MaSach) =1)
+					begin
+						Update CuonSach
+						Set TienDenBu=@TienDenBu ,ThoiGianMuon=@ThoiGianMuon ,MaKhuVuc=@MaKhuVuc ,MaSach=@MaSach ,TenNXB=@TenNXB
+						Where MaCuon = @MaCuon
+					end
+					else Print 'Ma Sach khong ton tai';
+				end
+			else Print 'Ma Khu Vuc khong ton tai';
+		end
+	else
+		Print 'NXB khong ton tai ';
+
+End
+Go
+exec dbo.Proc_Sua_CuonSach'p2',NULL,149,A,'p','p';
+CREATE Procedure Proc_Them_CuonSach
+@MaCuon varchar(20),
+@TienDenBu int,
+@ThoiGianMuon int,
+@MaKhuVuc varchar(10),
+@MaSach varchar(10),
+@TenNXB varchar(50)
+AS
+Begin
+	if(dbo.Func_Check_NXB(@TenNXB)=1)
+		begin
+			if (dbo.Func_Check_KhuVuc(@MaKhuVuc)=1)
+				begin
+					if(dbo.Func_Check_DauSach(@MaSach) =1)
+					begin
+						Insert into CuonSach values(@MaCuon,@TienDenBu ,@ThoiGianMuon ,@MaKhuVuc ,@MaSach ,@TenNXB);
+					end
+					else Print 'Ma Sach khong ton tai';
+				end
+			else Print 'Ma Khu Vuc khong ton tai';
+		end
+	else
+		Print 'NXB khong ton tai ';
+End
+Go
+exec dbo.Proc_Them_CuonSach 'p2',NULL,145,A,'p','p';
+--
+Create Procedure Proc_Xoa_CuonSach
+@MaCuon varchar(20)
+As
+Begin
+	Delete QuaTrinhMuon
+	Where MaCuon=@MaCuon
+	Delete Muon
+	Where MaCuon=@MaCuon
+	Delete CuonSach
+	Where MaCuon=@MaCuon
+
+End
+Go
+exec dbo.Proc_Xoa_CuonSach 'c1';
+---------------------------------------------------
+
+
+-------PHAN QUYEN--------
+use QuanLyThuVien
+--Tao quyen cho Quanly
+CREATE ROLE Quanly
+GRANT SELECT, INSERT, DELETE, UPDATE ON ThuThu TO Quanly
+GO
+GRANT SELECT, INSERT, DELETE, UPDATE ON CuonSach TO Quanly
+GO
+GRANT SELECT, INSERT, DELETE, UPDATE ON DangKy TO Quanly
+GO
+GRANT SELECT, INSERT, DELETE, UPDATE ON DauSach TO Quanly
+GO
+GRANT SELECT, INSERT, DELETE, UPDATE ON DocGia TO Quanly
+GO
+GRANT SELECT, INSERT, DELETE, UPDATE ON KhuVucSach TO Quanly
+GO
+GRANT SELECT, INSERT, DELETE, UPDATE ON Muon TO Quanly
+GO
+GRANT SELECT, INSERT, DELETE, UPDATE ON QuaTrinhMuon TO Quanly
+GO
+--CAP QUYEN CAC STORE PROCEDURE CHO QUAN LY
+GRANT EXEC, ALTER ON Proc_Cho_Muon_sach TO QuanLy
+GRANT EXEC, ALTER ON Proc_tra_sach TO QuanLy
+GRANT EXEC, ALTER ON Proc_Xoa_DangKy TO QuanLy
+GRANT EXEC, ALTER ON PROC_DANH_SACH_QUA_HAN TO QuanLy
+GRANT EXEC, ALTER ON PROC_DANH_SACH_TOI_HAN_TRA TO QuanLy
+GRANT EXEC, ALTER ON PROC_DANH_SACH_DA_MUON TO QuanLy
+GRANT EXEC, ALTER ON PROC_THU_THU_TRUC TO QuanLy
+--
+GRANT EXEC, ALTER ON Proc_Them_ThuThu TO QuanLy
+GRANT EXEC, ALTER ON Proc_Sua_ThuThu TO QuanLy
+GRANT EXEC, ALTER ON Proc_Xoa_ThuThu TO QuanLy
+GRANT EXEC, ALTER ON Proc_Them_KhuVucSach TO QuanLy
+GRANT EXEC, ALTER ON Proc_Sua_KhuVucSach TO QuanLy
+GRANT EXEC, ALTER ON Proc_Xoa_KhuVucSach TO QuanLy
+GRANT EXEC, ALTER ON Proc_Them_DangKy TO QuanLy
+GRANT EXEC, ALTER ON Proc_Sua_DangKy TO QuanLy
+GRANT EXEC, ALTER ON Proc_Xoa_DangKy TO QuanLy
+GRANT EXEC, ALTER ON Proc_Them_Muon TO QuanLy
+GRANT EXEC, ALTER ON Proc_Sua_Muon TO QuanLy
+GRANT EXEC, ALTER ON Proc_Xoa_Muon TO QuanLy
+--
+GRANT EXEC, ALTER ON Proc_Them_DocGia TO QuanLy
+GRANT EXEC, ALTER ON Proc_Sua_DocGia TO QuanLy
+GRANT EXEC, ALTER ON Proc_Xoa_DocGia TO QuanLy
+GRANT EXEC, ALTER ON Proc_Them_DauSach TO QuanLy
+GRANT EXEC, ALTER ON Proc_Xoa_DauSach TO QuanLy
+GRANT EXEC, ALTER ON Proc_Sua_CuonSach TO QuanLy
+GRANT EXEC, ALTER ON Proc_Them_CuonSach TO QuanLy
+GRANT EXEC, ALTER ON Proc_Xoa_CuonSach TO QuanLy
+--
+--CAP QUYEN CAC FUNCTION CHO QUAN LY
+GRANT SELECT, ALTER ON Func_tinh_tien_den TO QuanLy	
+
+GRANT SELECT, ALTER ON Func_DangKy_BangSTTDangKy TO QuanLy
+GRANT SELECT, ALTER ON Func_Check_KNIDTT TO QuanLy
+GRANT SELECT, ALTER ON Func_Check_KNMaDocGia TO QuanLy
+GRANT SELECT, ALTER ON Func_Check_MaKhuVucSach TO QuanLy
+GRANT SELECT, ALTER ON Func_Check_KNMaSachTenNXB TO QuanLy
+GRANT SELECT, ALTER ON Func_Check_KNMaCuon TO QuanLy
+GRANT SELECT, ALTER ON Func_Check_DauSach TO QuanLy
+GRANT SELECT, ALTER ON Func_Check_KhuVuc TO QuanLy
+GRANT SELECT, ALTER ON Func_Check_NXB TO QuanLy
+
